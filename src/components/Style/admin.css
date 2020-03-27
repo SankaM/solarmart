@@ -1,0 +1,19 @@
+.heder{
+    color: blue;
+    font-size: 2rem;
+    text-align: center;
+}
+.addbtn{
+    margin: 5px auto;
+    font-size: 15px;
+    width: 175px;
+    padding: 5px 20px;
+    background-color: #a3a375;
+    color: #fff;
+    border-radius: 3px;
+    transition: all 250ms ease-in-out;
+    cursor: pointer;
+}
+.deleteBtn{
+    background-color: red;
+}

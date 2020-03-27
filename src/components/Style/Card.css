@@ -1,0 +1,50 @@
+.cardWraper{
+    width: 220px;
+    height: 295px;
+    margin: 6px 10px;
+    background-color:#C3CDDB;
+    border-radius: 5px;
+    float: left;
+}
+.CImgSec{
+    height: 175px;
+    width: 210px;
+    margin: 5px auto;
+    background-color:#ffffff;
+}
+.priceWraper{
+    text-align: center;
+}
+.price{
+    padding: 3px 10px;
+    background-color: #E9E9E7;
+    border-radius: 20px;
+    font-weight: 700;
+}
+.starRatnig{
+    display: inline;
+    color: yellow;
+    padding: 0px 10px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    font-size: 14px;
+    width: 110px;
+    margin: 8px;
+}
+.ItemNameWraper{
+    text-align: center;
+}
+.ItemName{
+    font-size: 23px;
+    font-weight: 700;
+    background-color: #E9E9E7;
+    padding: 3px 7px;
+    border-radius: 10px;
+    margin-top: 8px;
+}
+.cardMidle{
+    margin-bottom: 10px;
+}
+.percentage{
+    margin-left: 90px;
+}

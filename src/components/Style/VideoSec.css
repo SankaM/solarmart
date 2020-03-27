@@ -1,0 +1,38 @@
+.vContainer{
+    width: 100%;
+    /* background-color: blue; */
+}
+
+#vsec{
+    margin: 10px 10px;
+    background-color: #C3CDDB;
+    border-radius: 10px;
+}
+.newPrice{
+    font-size: 30px;
+    color: blue;
+}
+
+.pastPrice{
+    font-size: 20px;
+    color: red;
+    margin-left: 50px;
+}
+#btnAddChart{
+    background-color: #FB9652;
+    border: black solid 1px;
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+#btnBuy{
+    background-color: #FC5D5D;
+    border: black solid 1px;
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+#btnAddChart:hover{
+  cursor: pointer;
+}
+#btnBuy:hover{
+  cursor: pointer;
+}
