@@ -17,7 +17,7 @@ const layout  = (props)=>(
             <div className={"input-group mb-3"}>
                 <input type="text" className={textArea} placeholder="Search for anything"/>
                 <div className={catoDropdown}> 
-                  <span className="input-group-text">All categories</span>
+                  <span className={[Nav.searchBarText,"input-group-text"].join(" ")}>All categories</span>
                 </div>
               </div>
             </div>

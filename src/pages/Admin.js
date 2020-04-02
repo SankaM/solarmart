@@ -4,18 +4,22 @@ import Aux from '../hoc/Wrap';
 import {Row,Table,Button,ButtonToolbar} from 'react-bootstrap';
 import AddItemModel from '../components/AdminPage/AddItemModel';
 import EditItemModel from '../components/AdminPage/EditItemModel';
+import AddCategoryModel from '../components/AdminPage/AddCategoryModel';
 
 
 class Admin extends Component {
     constructor(props){
         super(props);
-        this.state ={deps:[],addModelShow :false,editModelShow:false}
+        this.state ={deps:[],addModelShow :false,
+                     editModelShow:false,
+                     addCatergory:false
+                    }
     }
     componentDidMount(){
         this.refreshList();
     }
     refreshList(){
-      fetch('http://localhost:56482/api/Item').then(responce=>responce.json()).then(data=>
+      fetch('http://localhost:56482/api/Item/Get').then(responce=>responce.json()).then(data=>
       {
           this.setState({deps:data});
       }
@@ -27,7 +31,7 @@ class Admin extends Component {
     }
    
     DeleteProduct=(id)=>{
-            fetch('http://localhost:56482/api/Item/'+id,{
+            fetch('http://localhost:56482/api/Item/Delete/'+id,{
                 method:'DELETE',
                 headers:{'Accept':'application/json',
                 'Content-Type':'application/json'
@@ -43,6 +47,9 @@ class Admin extends Component {
         let editModelClose=()=>{
             this.setState({editModelShow:false});
         }
+        let addCategoryModelClose=()=>{
+            this.setState({addCatergory:false});
+        }
         return(
             <Aux>
             <div className="container-flud">
@@ -50,7 +57,7 @@ class Admin extends Component {
                 <div className="row">
                     <div className="col-2">
                         <div style={{textAlign:"center"}}>
-                            <Button className={Astyle.addbtn} onClick={()=>{this.setState({addModelShow:true})}}>Add New Categotry</Button>
+                            <Button className={Astyle.addbtn} onClick={()=>{this.setState({addCatergory:true})}}>Add New Categotry</Button>
                             <Button className={Astyle.addbtn} onClick={()=>{this.setState({addModelShow:true})}}>Add New Product</Button>
                         </div>
                     </div>
@@ -96,6 +103,7 @@ class Admin extends Component {
                 <Row>
                     
                 </Row>
+                <AddCategoryModel show={this.state.addCatergory} onHide={addCategoryModelClose}/>
                 <AddItemModel show={this.state.addModelShow} onHide={addModelClose}/>
                 <EditItemModel 
                     product={product}

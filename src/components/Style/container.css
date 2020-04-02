@@ -17,3 +17,18 @@
     margin: 10px auto;
     border-radius: 5px;
 }
+@media(max-width:376px){
+    .FcardContainer{
+        padding-top: 1px;
+        height: 340px;
+        margin-left: 0px;
+        margin-top: 10px;
+        border-radius: 5px;
+    } 
+    .otherItemSec{
+        padding-top: 15px;
+        text-align: center;
+        width: 100%;
+        margin: 5px auto;
+    }
+}

@@ -16,7 +16,7 @@ class AddItemModel extends Component{
     hadlerSubmit(event){
       event.preventDefault();
       // eslint-disable-next-line no-unused-expressions
-      fetch('http://localhost:56482/api/Item',{
+      fetch('http://localhost:56482/api/Item/Post',{
           method:'POST',
           headers:{
               'Accept':'application/json',
