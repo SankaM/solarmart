@@ -15,14 +15,14 @@ class FeturedItem extends Component{
         this.getProduct();
     }
     getProduct(){
-        fetch('http://localhost:56482/api/Item/GetForCard').then(responce=>responce.json()).then(res=>
+        fetch('http://localhost:56482/api/AdminService/GetForCard').then(responce=>responce.json()).then(res=>
         {
             this.setState({products:res})
         })
     }
-    componentDidUpdate(){
-        this.getProduct();
-    }
+    // componentDidUpdate(){
+    //     this.getProduct();
+    // }
     render(){
         return(
             <Aux>

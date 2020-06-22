@@ -2,7 +2,7 @@ import React from 'react';
 import Aux from '../../hoc/Wrap';
 import VideoS from '../Style/VideoSec.css';
 
-const  VideoSec =() =>{
+const  VideoSec =(props) =>{
     return(
         <Aux>
             <div className={VideoS.vContainer}>
@@ -15,9 +15,25 @@ const  VideoSec =() =>{
                              allowfullscreen></iframe>
                     </div>
                    <div className="col-6">
-                        <h2 className="mt-2">Casio G-SHOCK - GA-100CM-4ADR</h2>
-                        <div className="mt-5">
-                            <span className={VideoS.newPrice}>$24.16</span><span className={VideoS.pastPrice}>$30.15</span>
+                        <h2 className="mt-2">{props.product.ProModel} {props.product.ProBrand} ({props.product.ProColor})</h2>
+                        <div className="row">
+                          <div className="col-6">
+                            <ol>
+                             <li>{props.product.FeatureOne}</li>
+                             <li>{props.product.FeatureTwo}</li>
+                             <li>{props.product.FeatureThree}</li>
+                            </ol>
+                          </div>
+                          <div className="col-6">
+                            <ol>
+                             <li>{props.product.FeatureFour}</li>
+                             <li>{props.product.FeatureFive}</li>
+                             <li>{props.product.FeatureSix}</li>
+                            </ol>
+                          </div>
+                        </div>
+                        <div className="mt-1">
+                            <span className={VideoS.newPrice}>Rs : {props.price}</span><span className={VideoS.pastPrice}>Rs:30.15</span>
                         </div>
                         <div>
                             <label>Quatity</label>{"   "}

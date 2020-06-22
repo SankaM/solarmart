@@ -10,7 +10,8 @@ import AddCategoryModel from '../components/AdminPage/AddCategoryModel';
 class Admin extends Component {
     constructor(props){
         super(props);
-        this.state ={deps:[],addModelShow :false,
+        this.state ={deps:[],
+                     addModelShow :false,
                      editModelShow:false,
                      addCatergory:false
                     }
@@ -19,19 +20,19 @@ class Admin extends Component {
         this.refreshList();
     }
     refreshList(){
-      fetch('http://localhost:56482/api/Item/Get').then(responce=>responce.json()).then(data=>
+      fetch('http://localhost:56482/api/AdminService/Get').then(responce=>responce.json()).then(data=>
       {
           this.setState({deps:data});
       }
       );
     }
    
-    componentDidUpdate(){
-        this.refreshList();
-    }
+    // componentDidUpdate(){
+    //     this.refreshList();
+    // }
    
     DeleteProduct=(id)=>{
-            fetch('http://localhost:56482/api/Item/Delete/'+id,{
+            fetch('http://localhost:56482/api/AdminService/Delete/'+id,{
                 method:'DELETE',
                 headers:{'Accept':'application/json',
                 'Content-Type':'application/json'

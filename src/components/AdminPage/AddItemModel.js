@@ -2,11 +2,17 @@ import React, { Component } from 'react';
 import {Modal,Button,Row,Col,Form} from 'react-bootstrap';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
+import MStyle from '../Style/modelStyle.css';
 
 class AddItemModel extends Component{
     constructor(props){
         super(props);
-        this.state ={SnackbarOpen:false,SnackbarMsg:''};
+        this.state ={
+            SnackbarOpen:false,
+            SnackbarMsg:'',
+            selectedFImage:null,
+            fPrevewImagURL: null
+        };
         this.hadlerSubmit = this.hadlerSubmit.bind(this);
     }
 
@@ -16,7 +22,7 @@ class AddItemModel extends Component{
     hadlerSubmit(event){
       event.preventDefault();
       // eslint-disable-next-line no-unused-expressions
-      fetch('http://localhost:56482/api/Item/Post',{
+      fetch('http://localhost:56482/api/AdminService/Post',{
           method:'POST',
           headers:{
               'Accept':'application/json',
@@ -47,8 +53,41 @@ class AddItemModel extends Component{
       (error)=>{
         this.setState({SnackbarOpen:true,SnackbarMsg:'Failed to Update'});
       })
-  }
+
+      var FImage = new FormData();
+      let Image = this.state.selectedFImage;
+      FImage.append('file',this.state.selectedFImage)
+      fetch("http://localhost:56482/api/AdminService/InsertItemImage",{
+          method:'POST',
+          headers:{
+            'Content-Type':'multipart/form-data'
+          },
+          body:{Image}
+      })
+      .then((res)=>res.json())
+      .then((data)=>console.log(data))
+
+     }
+     
+     featheImageHandler=(event)=>{
+        console.log(event.target.files[0])
+        this.setState({
+            selectedFImage:event.target.files[0]
+        })
+
+        let reader = new FileReader();
+        reader.onloadend=()=>{
+            this.setState({
+                fPrevewImagURL:reader.result
+            })
+        }
+        reader.readAsDataURL(event.target.files[0]);
+      }
     render(){
+        let fImagePreview = null;
+        if(this.state.selectedFImage){
+            fImagePreview = <img src={this.state.fPrevewImagURL} id={MStyle.fImg} alt="featureImage"/>
+        }
         return(
             <div className="container">
             <Snackbar
@@ -168,6 +207,20 @@ class AddItemModel extends Component{
                             <Form.Label>Produduct discription & Other features</Form.Label>
                             <Form.Control type="text" as="textarea" rows="4" name="ProDiscrit" required placeholder="Produduct discription & Other features" />
                         </Form.Group>
+                    </Col>
+                </Row>
+            </div>
+            <div>
+                <Row>
+                    <Col>
+                        <h6>Featued Image</h6>
+                        <label className="btn btn-primary">
+                            Choose Image
+                            <input type="file" id="browsFimage" className="d-none" onChange={this.featheImageHandler}/>
+                        </label>
+                        <div>
+                            {fImagePreview}
+                        </div>
                     </Col>
                 </Row>
             </div>

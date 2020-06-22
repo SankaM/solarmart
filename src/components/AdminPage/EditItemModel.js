@@ -6,7 +6,7 @@ class EditItemModel extends Component{
     hadlerSubmit=(event)=>{
         event.preventDefault();
         // eslint-disable-next-line no-unused-expressions
-        fetch('http://localhost:56482/api/Item/Put',{
+        fetch('http://localhost:56482/api/AdminService/Put',{
             method:'PUT',
             headers:{
                 'Accept':'application/json',

@@ -27,6 +27,7 @@ namespace SolarMart
                 new MediaTypeHeaderValue("text/html"));
 
             config.EnableCors(new EnableCorsAttribute("http://localhost:3000", "*", "*"));
+            //config.Formatters.XmlFormatter.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("multipart/form-data"));
         }
     }
 }
