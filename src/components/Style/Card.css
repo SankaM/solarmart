@@ -12,6 +12,10 @@
     margin: 5px auto;
     background-color:#ffffff;
 }
+.cImg{
+    height: 100%;
+    width: 100%;
+}
 .priceWraper{
     text-align: center;
 }

@@ -8,7 +8,7 @@ const card = (props)=>{
     <Aux>
         <div className={Card.cardWraper}> 
             <div className={Card.CImgSec}>
-                
+                <img  src={ 'http://localhost:56482/Images/'+ props.proImg} alt="kk" className={Card.cImg}/>
             </div>
             <div className={Card.priceWraper}><span className={Card.price}>Rs:{ props.proPrice}</span></div>
             <div className={Card.cardMidle}>

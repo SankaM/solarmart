@@ -66,7 +66,6 @@ class Admin extends Component {
                         <Table className="mt-5" striped bordered hover size="sm">
                             <thead>
                                 <tr>
-                                    <th>Product ID</th>
                                     <th>Product Name</th>
                                     <th>Product Brand</th>
                                     <th>Product Model</th>
@@ -78,7 +77,6 @@ class Admin extends Component {
                                 {
                                     this.state.deps.map(dep=>
                                                 <tr key={dep.ProductId}>
-                                                    <td>{dep.ProductId}</td>
                                                     <td>{dep.productname}</td>
                                                     <td>{dep.ProBrand }</td>
                                                     <td>{dep.ProModel }</td>

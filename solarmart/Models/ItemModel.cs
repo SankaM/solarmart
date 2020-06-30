@@ -7,7 +7,7 @@ namespace SolarMart.Models
 {
     public class ItemModel
     {
-        public int ItemId { get; set; }
+        public string ItemId { get; set; }
 
         public string ItemName { get; set; }
 

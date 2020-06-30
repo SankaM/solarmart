@@ -46,12 +46,14 @@ namespace SolarMart.Controllers
         }
         public string Post(ItemModel item)
         {
+            DataTable tb = new DataTable();
             try
             {
                 using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
                 {
                     SqlCommand cmd = new SqlCommand("spInsertProduct", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ProductId", item.ItemId);
                     cmd.Parameters.AddWithValue("@ItemName", item.ItemName);
                     cmd.Parameters.AddWithValue("@Bprice", item.BuyPrice);
                     cmd.Parameters.AddWithValue("@Sprice", item.SellPrice);
@@ -68,6 +70,9 @@ namespace SolarMart.Controllers
                     cmd.Parameters.AddWithValue("@feature6", item.feature6);
                     cmd.Parameters.AddWithValue("@ProDiscrit", item.ProDiscrit);
                     conn.Open();
+                    //SqlParameter returnValue = new SqlParameter("@lastId", SqlDbType.Int);
+                    //returnValue.Direction = ParameterDirection.Output;           
+                    //int renValue = (int)cmd.Parameters["@lastId"].Value;
                     cmd.ExecuteNonQuery();
                     conn.Close();
                 }
@@ -88,15 +93,27 @@ namespace SolarMart.Controllers
             var provider = new MultipartFormDataStreamProvider(root);
             try
             {
+                var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString);
                 await Request.Content.ReadAsMultipartAsync(provider);
                 foreach(var file in provider.FileData)
                 {
                     var name = file.Headers.ContentDisposition.FileName;
-
+    
                     name = name.Trim('"');
                     var localFileName = file.LocalFileName;
                     var filePath = Path.Combine(root, name);
+                    var ext = Path.GetExtension(name);
+                    var id = ctx.Request.Params["ItemId"];
                     File.Move(localFileName, filePath);
+                    SqlCommand cmd = new SqlCommand("spInsertFeaturedImage", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ImgName", name);
+                    cmd.Parameters.AddWithValue("@ImgExt", ext);
+                    cmd.Parameters.AddWithValue("@ItemId", id);
+                    cmd.Parameters.AddWithValue("@ImgPath", filePath);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
                 }
             }
             catch(Exception e)
@@ -144,7 +161,7 @@ namespace SolarMart.Controllers
         }
 
 
-        public string Delete (int id)
+        public string Delete (string id)
         {
             try
             {
