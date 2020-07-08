@@ -30,7 +30,7 @@ class FeturedItem extends Component{
                     <h4>Fetuerd Item</h4>
                     {
                         this.state.products.map(prod=>
-                            <Link to={["/Item/",prod.ProductId].join("")}><Card proPrice={prod.SellPrice} proModel={prod.ProModel} proBrand = {prod.ProBrand} proName={prod.productname} proImg={prod.ImgName}/></Link>
+                            <Link to={["/Item/",prod.ProductId].join("")} key={prod.ProductId}><Card proPrice={prod.SellPrice} proModel={prod.ProModel} proBrand = {prod.ProBrand} proName={prod.productname} proImg={prod.ImgName}/></Link>
                             )
                     }
                 </div>

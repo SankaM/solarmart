@@ -3,7 +3,7 @@ import { Modal, Button, Row, Col, Form } from "react-bootstrap";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import MStyle from "../Style/modelStyle.css";
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 class AddItemModel extends Component {
   constructor(props) {
@@ -13,6 +13,8 @@ class AddItemModel extends Component {
       SnackbarMsg: "",
       selectedFImage: null,
       fPrevewImagURL: null,
+      selectedOImages: [],
+      OpreviewImageURL: [],
     };
   }
 
@@ -20,7 +22,7 @@ class AddItemModel extends Component {
     this.setState({ SnackbarOpen: false });
   };
 
-  hadlerSubmit=(event)=>{
+  hadlerSubmit = (event) => {
     event.preventDefault();
     var ProductId = uuidv4();
     // eslint-disable-next-line no-unused-expressions
@@ -31,7 +33,7 @@ class AddItemModel extends Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        ItemId:ProductId,
+        ItemId: ProductId,
         ItemName: event.target.ItemName.value,
         BuyPrice: event.target.BuyPrice.value,
         SellPrice: event.target.SellPrice.value,
@@ -53,7 +55,7 @@ class AddItemModel extends Component {
       .then(
         (result) => {
           this.setState({ SnackbarOpen: true, SnackbarMsg: result });
-          console.log(result)
+          console.log(result);
         },
         (error) => {
           this.setState({
@@ -63,18 +65,32 @@ class AddItemModel extends Component {
         }
       );
 
-      var FImage = new FormData();
-      FImage.append("file", this.state.selectedFImage);
-      FImage.append("ItemId",ProductId);
-      fetch("http://localhost:56482/api/AdminService/InsertItemImage", {
-        method: "POST",
-        body: FImage
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data));
-  }
+    var FImage = new FormData();
+    FImage.append("file", this.state.selectedFImage);
+    FImage.append("ItemId", ProductId);
+    FImage.append("IsMain", 1);
+    fetch("http://localhost:56482/api/AdminService/InsertItemImage", {
+      method: "POST",
+      body: FImage,
+    });
+    this.uploadOtherImages(ProductId);
+  };
 
-
+  uploadOtherImages = (ProductId) => {
+    var OImges = new FormData();
+    for (const file of this.state.selectedOImages) {
+      OImges.append("myFile[]", file);
+    }
+    OImges.append("ItemId", ProductId);
+    OImges.append("IsMain", 0);
+    fetch("http://localhost:56482/api/AdminService/AddOtherImages", {
+      method: "POST",
+      body: OImges,
+    })
+      .then((res) => res.json())
+      .then((response) => console.log(response));
+    console.log("OtherImage function fired", OImges);
+  };
 
   featheImageHandler = (event) => {
     this.setState({
@@ -90,17 +106,72 @@ class AddItemModel extends Component {
     reader.readAsDataURL(event.target.files[0]);
   };
 
-
+  OtherImageHandler = (e) => {
+    let files = Array.from(e.target.files);
+    files.forEach((file) => {
+      let reader = new FileReader();
+      reader.onload = () => {
+        this.setState({
+          selectedOImages: [...this.state.selectedOImages, file],
+          OpreviewImageURL: [...this.state.OpreviewImageURL, reader.result],
+        });
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+  removeFImage = () => {
+    this.setState({
+      selectedFImage: null,
+    });
+  };
+  removeOImage = (index) => {
+    console.log(index)
+    var oImgUrl =  this.state.OpreviewImageURL;
+    var OImg = this.state.selectedOImages;
+    oImgUrl.splice(index,1);
+    OImg.splice(index,1);
+    this.setState({
+      selectedOImages: OImg,
+      OpreviewImageURL: oImgUrl
+    })
+    console.log(this.state.OpreviewImageURL)
+    console.log(this.state.selectedOImages)
+  };
   render() {
     let fImagePreview = null;
+    let OtherImagePreview = null;
     if (this.state.selectedFImage) {
       fImagePreview = (
-        <img
-          src={this.state.fPrevewImagURL}
-          id={MStyle.fImg}
-          alt="featureImage"
-        />
+        <div className={MStyle.aImgWraper}>
+          <a href="#/" className={MStyle.removeBtn} onClick={this.removeFImage}>
+            x
+          </a>
+          <img
+            src={this.state.fPrevewImagURL}
+            id={MStyle.fImg}
+            alt="featureImage"
+          />
+        </div>
       );
+    }
+    if (this.state.selectedOImages.length !== 0) {
+      OtherImagePreview = this.state.OpreviewImageURL.map((url,index) => (
+        <div className={MStyle.aImgWraper} key={index}>
+          <a
+            href="#/"
+            className={MStyle.removeBtn}
+            onClick={()=>this.removeOImage(index)}
+          >
+            x
+          </a>
+          <img
+            src={url}
+            alt="otherImage"
+            className={MStyle.oImg}
+            id={MStyle.fImg}
+          />
+        </div>
+      ));
     }
     return (
       <div className="container">
@@ -152,7 +223,6 @@ class AddItemModel extends Component {
                       <Form.Control
                         type="text"
                         name="ProColor"
-                        required
                         placeholder="Product Color"
                       />
                     </Form.Group>
@@ -172,7 +242,6 @@ class AddItemModel extends Component {
                       <Form.Control
                         type="text"
                         name="Category"
-                        required
                         placeholder="Item category"
                       />
                     </Form.Group>
@@ -183,8 +252,8 @@ class AddItemModel extends Component {
                       <Form.Control
                         type="text"
                         name="ProBrand"
-                        required
                         placeholder="Item category"
+                        required
                       />
                     </Form.Group>
                   </Col>
@@ -198,7 +267,6 @@ class AddItemModel extends Component {
                       <Form.Control
                         type="text"
                         name="BuyPrice"
-                        required
                         placeholder="Price of Buy"
                       />
                     </Form.Group>
@@ -209,7 +277,6 @@ class AddItemModel extends Component {
                       <Form.Control
                         type="text"
                         name="SellPrice"
-                        required
                         placeholder="Price of Sell"
                       />
                     </Form.Group>
@@ -226,7 +293,6 @@ class AddItemModel extends Component {
                         as="textarea"
                         rows="2"
                         name="details"
-                        required
                         placeholder="Short Introduction about product"
                       />
                     </Form.Group>
@@ -241,7 +307,6 @@ class AddItemModel extends Component {
                       <Form.Control
                         type="text"
                         name="feature1"
-                        required
                         placeholder="features"
                       />
                     </Form.Group>
@@ -249,7 +314,6 @@ class AddItemModel extends Component {
                       <Form.Control
                         type="text"
                         name="feature2"
-                        required
                         placeholder="features"
                       />
                     </Form.Group>
@@ -259,7 +323,6 @@ class AddItemModel extends Component {
                       <Form.Control
                         type="text"
                         name="feature3"
-                        required
                         placeholder="features"
                       />
                     </Form.Group>
@@ -267,7 +330,6 @@ class AddItemModel extends Component {
                       <Form.Control
                         type="text"
                         name="feature4"
-                        required
                         placeholder="features"
                       />
                     </Form.Group>
@@ -277,7 +339,6 @@ class AddItemModel extends Component {
                       <Form.Control
                         type="text"
                         name="feature5"
-                        required
                         placeholder="features"
                       />
                     </Form.Group>
@@ -285,7 +346,6 @@ class AddItemModel extends Component {
                       <Form.Control
                         type="text"
                         name="feature6"
-                        required
                         placeholder="features"
                       />
                     </Form.Group>
@@ -304,7 +364,6 @@ class AddItemModel extends Component {
                         as="textarea"
                         rows="4"
                         name="ProDiscrit"
-                        required
                         placeholder="Produduct discription & Other features"
                       />
                     </Form.Group>
@@ -314,7 +373,7 @@ class AddItemModel extends Component {
               <div>
                 <Row>
                   <Col>
-                    <h6>Featued Image</h6>
+                    <h6>Main Image</h6>
                     <label className="btn btn-primary">
                       Choose Image
                       <input
@@ -325,6 +384,24 @@ class AddItemModel extends Component {
                       />
                     </label>
                     <div>{fImagePreview}</div>
+                  </Col>
+                </Row>
+              </div>
+              <div>
+                <Row>
+                  <Col>
+                    <h6>Other Images</h6>
+                    <label className="btn btn-primary">
+                      Choose Image
+                      <input
+                        type="file"
+                        id="browsFimage"
+                        className="d-none"
+                        onChange={this.OtherImageHandler}
+                        multiple
+                      />
+                    </label>
+                    <div>{OtherImagePreview}</div>
                   </Col>
                 </Row>
               </div>

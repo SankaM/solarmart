@@ -10,7 +10,8 @@ class Item extends Component {
     constructor(prorp){
         super(prorp);
         this.state={
-            product :[]
+            product :[],
+            Images:[]
         }
     }
     componentDidMount(){
@@ -21,7 +22,8 @@ class Item extends Component {
         const {id} = this.props.match.params;
         fetch("http://localhost:56482/api/Product/Product/"+id).then(res=>res.json()).then(res=>{
             this.setState({
-                product:res
+                product:res.Table,
+                Images:res.Table1
             })
         })
     }
@@ -31,11 +33,11 @@ class Item extends Component {
     // }
 
     render(){
-        const [product] = this.state.product
-
+        const [product] = this.state.product;
+        const Images = this.state.Images;
         return(
                 <Layout>
-                    <Slider/>
+                    {Images?(<Slider ImgList={Images}/>):null}
                     {product && <VSec
                         product={product}
                     />}

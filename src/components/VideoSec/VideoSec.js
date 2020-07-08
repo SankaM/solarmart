@@ -33,7 +33,7 @@ const  VideoSec =(props) =>{
                           </div>
                         </div>
                         <div className="mt-1">
-                            <span className={VideoS.newPrice}>Rs : {props.price}</span><span className={VideoS.pastPrice}>Rs:30.15</span>
+                            <span className={VideoS.newPrice}>Rs : {props.product.SellPrice}</span><span className={VideoS.pastPrice}></span>
                         </div>
                         <div>
                             <label>Quatity</label>{"   "}

@@ -1,32 +1,37 @@
-import React,{Component} from 'react';
-import  Aux from '../../hoc/Wrap';
-import SimpleImageSlider from "react-simple-image-slider";
-import Slider from '../Style/slider.css';
-//import Images from '../../Assets/null.png';
+import React, { useState } from "react";
+import Aux from "../../hoc/Wrap";
+import Carousel from "react-bootstrap/Carousel";
+import ImgStyle from "../Style/ImgSlider.css";
 
+const ImgSlaider = (props) => {
+  const [index, setIndex] = useState(0);
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
 
-class ImgSlaider extends Component {
-    render(){
-      const images = [
-        { url: "../../Assets/null.png" },
-        { url: "/static/media/null2.0788e1bb.jpeg" },
-        { url: "/static/media/null3.7fea16e7.jpg" },
-        { url: "/static/media/null.12e1ec8c.png" },
-    ];
+  return (
+    <Aux>
+      <div className={ImgStyle.sliderContainer}>
+        <Carousel activeIndex={index} onSelect={handleSelect} className={ImgStyle.slider} data-interval="false">
+          {props.ImgList.map((url) => (
+            <Carousel.Item key={url.ImgName}>
+              <img
+                className={ImgStyle.siderImg}
+                src={"http://localhost:56482/Images/" + url.ImgName}
+                alt={url.ImgName}
+              />
+              {/* <Carousel.Caption>
+                <h3>First slide label</h3>
+                <p>
+                  Nulla vitae elit libero, a pharetra augue mollis interdum.
+                </p>
+              </Carousel.Caption> */}
+            </Carousel.Item>
+          ))}
+        </Carousel>
+      </div>
+    </Aux>
+  );
+};
 
-        return(
-          <Aux>
-            <div className={Slider.sliderContainer}>
-                <SimpleImageSlider
-                      width={800}
-                      height={404}
-                      images={images}
-                      />
-                      {/* <img src={Images} alt=""></img> */}
-            </div>
-          </Aux>
-        );
-    }
-}
-                
 export default ImgSlaider;

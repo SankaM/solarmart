@@ -98,29 +98,71 @@ namespace SolarMart.Controllers
                 foreach(var file in provider.FileData)
                 {
                     var name = file.Headers.ContentDisposition.FileName;
-    
                     name = name.Trim('"');
+                    name = DateTime.Now.ToString("ddMMyyhhmmsstt")+"_"+name;
                     var localFileName = file.LocalFileName;
                     var filePath = Path.Combine(root, name);
                     var ext = Path.GetExtension(name);
                     var id = ctx.Request.Params["ItemId"];
+                    var IsMain = ctx.Request.Params["IsMain"];
                     File.Move(localFileName, filePath);
                     SqlCommand cmd = new SqlCommand("spInsertFeaturedImage", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ImgName", name);
                     cmd.Parameters.AddWithValue("@ImgExt", ext);
                     cmd.Parameters.AddWithValue("@ItemId", id);
+                    cmd.Parameters.AddWithValue("@IsMain", IsMain);
                     cmd.Parameters.AddWithValue("@ImgPath", filePath);
                     conn.Open();
                     cmd.ExecuteNonQuery();
-                    conn.Close();
                 }
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                return $"Error : {e.Message}";
+            }
+            return "Image uploaded";
+        }
+
+        [HttpPost]
+        public async Task<string> AddOtherImages()
+        {
+            var ctx2 = HttpContext.Current;
+            var root = ctx2.Server.MapPath("~/Images");
+            var OtherImageProvider = new MultipartFormDataStreamProvider(root);
+            try
+            {
+                var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString);
+                await Request.Content.ReadAsMultipartAsync(OtherImageProvider);
+                conn.Open();
+                foreach (var file in OtherImageProvider.FileData)
+                {
+                    var name = file.Headers.ContentDisposition.FileName;
+                    name = name.Trim('"');
+                    name = DateTime.Now.ToString("ddMMyyhhmmsstt") + "_" + name;
+                    var localFileName = file.LocalFileName;
+                    var filePath = Path.Combine(root, name);
+                    var ext = Path.GetExtension(name);
+                    var id = ctx2.Request.Params["ItemId"];
+                    var IsMain = ctx2.Request.Params["IsMain"];
+                    File.Move(localFileName, filePath);
+                    SqlCommand cmd = new SqlCommand("spInsertFeaturedImage", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ImgName", name);
+                    cmd.Parameters.AddWithValue("@ImgExt", ext);
+                    cmd.Parameters.AddWithValue("@ItemId", id);
+                    cmd.Parameters.AddWithValue("@IsMain", IsMain);
+                    cmd.Parameters.AddWithValue("@ImgPath", filePath);
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
             }
             catch(Exception e)
             {
                 return $"Error : {e.Message}";
             }
-            return "Image uploaded";
+            return "Other Image uploaded";
         }
 
         public string Put(ItemModel item)
@@ -165,15 +207,32 @@ namespace SolarMart.Controllers
         {
             try
             {
- //               string query = @"delete from Item where ItemId = @id";
+                DataTable tb = new DataTable();
+                List<string> ImgPath = new List<string>();
                 using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
                 {
+                    string query = @"select ImgPath from ItemImages where ItemId = @id";
+                    conn.Open();
+                    SqlCommand cmdGetImagePathe = new SqlCommand(query, conn);
+                    cmdGetImagePathe.Parameters.AddWithValue("@id", id);
+                    SqlDataReader dr = cmdGetImagePathe.ExecuteReader();
+                    tb.Load(dr);
+                    for (int i = 0; i <= tb.Rows.Count - 1; i++)
+                    {
+                        ImgPath.Add(Convert.ToString(tb.Rows[i][0]));
+                        string[] ImgPathList = ImgPath.ToArray();
+                        if (File.Exists(ImgPathList[i]))
+                        {
+                            File.Delete(ImgPathList[i]);
+                        }
+                    }
+                    conn.Close();
+
                     SqlCommand cmd = new SqlCommand("sp_deleteProduct", conn);
                     cmd.CommandType =    CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
                     conn.Open();
                     cmd.ExecuteNonQuery();
-                    conn.Close();
                 }
                 return "Successfully Deleted";
             }

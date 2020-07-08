@@ -37,7 +37,9 @@ class Admin extends Component {
                 headers:{'Accept':'application/json',
                 'Content-Type':'application/json'
             }
-            })
+            }).then(
+                res=>res.json()
+            ).then(res=>console.log(res))
     }
 
     render(){
