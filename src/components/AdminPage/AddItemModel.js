@@ -125,7 +125,6 @@ class AddItemModel extends Component {
     });
   };
   removeOImage = (index) => {
-    console.log(index)
     var oImgUrl =  this.state.OpreviewImageURL;
     var OImg = this.state.selectedOImages;
     oImgUrl.splice(index,1);
@@ -134,8 +133,6 @@ class AddItemModel extends Component {
       selectedOImages: OImg,
       OpreviewImageURL: oImgUrl
     })
-    console.log(this.state.OpreviewImageURL)
-    console.log(this.state.selectedOImages)
   };
   render() {
     let fImagePreview = null;

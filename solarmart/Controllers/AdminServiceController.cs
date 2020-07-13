@@ -16,20 +16,6 @@ namespace SolarMart.Controllers
 {
     public class AdminServiceController : ApiController
     {
-        public HttpResponseMessage Get()
-        {
-            DataTable tb = new DataTable();
-            using( var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("spGetProduct", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataReader dr = cmd.ExecuteReader();
-                tb.Load(dr);
-                return Request.CreateResponse(HttpStatusCode.OK, tb);
-            }
-        }
-
         public HttpResponseMessage GetForCard()
         {
             DataTable tb = new DataTable();
@@ -46,7 +32,6 @@ namespace SolarMart.Controllers
         }
         public string Post(ItemModel item)
         {
-            DataTable tb = new DataTable();
             try
             {
                 using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
@@ -70,9 +55,6 @@ namespace SolarMart.Controllers
                     cmd.Parameters.AddWithValue("@feature6", item.feature6);
                     cmd.Parameters.AddWithValue("@ProDiscrit", item.ProDiscrit);
                     conn.Open();
-                    //SqlParameter returnValue = new SqlParameter("@lastId", SqlDbType.Int);
-                    //returnValue.Direction = ParameterDirection.Output;           
-                    //int renValue = (int)cmd.Parameters["@lastId"].Value;
                     cmd.ExecuteNonQuery();
                     conn.Close();
                 }
@@ -164,45 +146,7 @@ namespace SolarMart.Controllers
             }
             return "Other Image uploaded";
         }
-
-        public string Put(ItemModel item)
-        {
-            try
-            {
-                using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
-                {
-                    SqlCommand cmd = new SqlCommand("sp_UpdateProduct", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@itemId", item.ItemId);
-                    cmd.Parameters.AddWithValue("@ItemName", item.ItemName);
-                    cmd.Parameters.AddWithValue("@Bprice", item.BuyPrice);
-                    cmd.Parameters.AddWithValue("@Sprice", item.SellPrice);
-                    cmd.Parameters.AddWithValue("@CId", item.CategoryId);
-                    cmd.Parameters.AddWithValue("@Idetails", item.ItemDetails);
-                    cmd.Parameters.AddWithValue("@proBarnd", item.ProBrand);
-                    cmd.Parameters.AddWithValue("@proModel", item.ProModel);
-                    cmd.Parameters.AddWithValue("@proColor", item.ProColor);
-                    cmd.Parameters.AddWithValue("@featureOne", item.feature1);
-                    cmd.Parameters.AddWithValue("@featureTwo", item.feature2);
-                    cmd.Parameters.AddWithValue("@featureThree", item.feature3);
-                    cmd.Parameters.AddWithValue("@featureFore", item.feature4);
-                    cmd.Parameters.AddWithValue("@featureFive", item.feature5);
-                    cmd.Parameters.AddWithValue("@featureSix", item.feature6);
-                    cmd.Parameters.AddWithValue("@ProDiscription", item.ProDiscrit);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                }
-                return "Successfully Updated";
-            }
-            catch (Exception ex)
-            {
-                string exe = ex.ToString();
-                return exe;
-            }
-        }
-
-
+     
         public string Delete (string id)
         {
             try
