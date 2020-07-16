@@ -11,6 +11,7 @@ using SolarMart.Models;
 using System.Web;
 using System.IO;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SolarMart.Controllers
 {
@@ -98,6 +99,76 @@ namespace SolarMart.Controllers
             return "Image Edited";
         }
 
+        public async Task<string> EditOtherImages()
+        {
+            var ctx3 = HttpContext.Current;
+            var root = ctx3.Server.MapPath("~/Images");
+            var OtherImageProvider = new MultipartFormDataStreamProvider(root);
+            try
+            {
+                var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString);
+                await Request.Content.ReadAsMultipartAsync(OtherImageProvider);
+                conn.Open();
+                foreach (var file in OtherImageProvider.FileData)
+                {
+                    var name = file.Headers.ContentDisposition.FileName;
+                    name = name.Trim('"');
+                    name = DateTime.Now.ToString("ddMMyyhhmmsstt") + "_" + name;
+                    var localFileName = file.LocalFileName;
+                    var filePath = Path.Combine(root, name);
+                    var ext = Path.GetExtension(name);
+                    var id = ctx3.Request.Params["productId"];              
+                    File.Move(localFileName, filePath);
+                    SqlCommand cmd = new SqlCommand("spInsertEditNewOtherImage", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ImgName", name);
+                    cmd.Parameters.AddWithValue("@ImgExt", ext);
+                    cmd.Parameters.AddWithValue("@ItemId", id);
+                    cmd.Parameters.AddWithValue("@IsMain", 0);
+                    cmd.Parameters.AddWithValue("@ImgPath", filePath);
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
+            catch(Exception e)
+            {
+                return $"Error : {e.Message}";
+            }
+            return "Other Image uploaded";
+        }
+
+        public string DeleteEditedImages(ItemModel list)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
+                {
+                    conn.Open();
+                    list.List.ForEach((file) =>
+                    {
+                        int id = file.ImgId;
+                        string path = file.ImgPath;
+                        if (File.Exists(path))
+                        {
+                            File.Delete(path);
+                        }
+
+                        string deleteQuery = @"delete from ItemImages where ImgId = @id";
+                        SqlCommand cmd = new SqlCommand(deleteQuery, conn);
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.ExecuteNonQuery();
+                    });
+                    conn.Close();
+                }
+            }
+            catch(Exception e)
+            {
+                return $"Error : {e.Message}";
+            }
+            return "success";
+        }
+
+        [HttpPut]
         public string UpdateProduct(ItemModel item)
         {
             try

@@ -38,5 +38,7 @@ namespace SolarMart.Models
         public string feature6 { get; set; }
 
         public string ProDiscrit { get; set; }
-    }
+
+        public List<ImageDeleteModel> List { get; set;}
+}
 }

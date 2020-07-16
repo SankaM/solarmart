@@ -1,22 +1,24 @@
 import React from 'react';
 import {Modal,Button,Row,Col,Form} from 'react-bootstrap';
 
-const hadleSubmit=(event)=>{
-    event.preventDefault();
-    fetch('http://localhost:56482/api/Catagory',{
-        method:'POST',
-        headers:{
-            'Accept':'application/json',
-            'Content-Type':'application/json'
-        },
-        body:JSON.stringify({
-            CategoryId:null,
-            CategoryName:event.target.category.value
-        })
-    }).then(res=>res.json()).then((res)=>console.log(res))
-    this.props.onHide()
-}
+
 const AddCategoryModel =(props)=>{
+
+    const hadleSubmit=(event)=>{
+        event.preventDefault();
+        fetch('http://localhost:56482/api/Catagory/Post',{
+            method:'POST',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                CategoryId:null,
+                CategoryName:event.target.category.value
+            })
+        }).then(res=>res.json()).then((res)=>{console.log(res);props.onHide()})
+        
+    }
     return(
         <Modal show={props.show} onHide={props.onHide}>
         <Modal.Header closeButton>

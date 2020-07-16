@@ -1,0 +1,9 @@
+.homeContainer{
+    display: flex;
+}
+.sideContainer{
+    flex: 25%;
+}
+.CardContainer{
+    flex: 75%;
+}

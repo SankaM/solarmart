@@ -5,14 +5,15 @@ import MStyle from "../Style/modelStyle.css";
 class EditItemModel extends Component {
   state = {
     //FeImgUrl: null,
-    mainImgUrl:null,
+    mainImgUrl: null,
     SelectedFeImg: null,
     OthImgUrl: [],
     SelectedOtherImg: [],
-    detailsForDeleteImg:[]
+    detailsForDeleteImg: [],
+    newPhoto: 0,
   };
   componentWillReceiveProps(nextProps) {
-    if(typeof nextProps.productimg !== "undefined"){
+    if (typeof nextProps.productimg !== "undefined") {
       this.FImgHandler(nextProps.productimg.Table[0].ImgName);
       this.OImgHandler(nextProps);
     }
@@ -49,34 +50,36 @@ class EditItemModel extends Component {
       .then((res) => res.json())
       .then(
         (result) => {
-          alert("ok");
+          console.log(result);
         },
         (error) => {
-          alert("No");
+          console.log(error);
         }
       );
-      
-      this.state.SelectedFeImg && this.UploadNewImages();
+
+    this.state.SelectedFeImg && this.UploadNewMainImage();
+    this.state.SelectedOtherImg.length !== 0 && this.UploadNewOtherImages(this.props.product.ProductId);
+    this.state.detailsForDeleteImg.length !== 0 && this.DeleteEditedImages(this.state.detailsForDeleteImg);
   };
 
   // main Image Functions
 
   FImgHandler = (nextProps) => {
     this.setState({
-      mainImgUrl: "http://localhost:56482/Images/"+nextProps
+      mainImgUrl: "http://localhost:56482/Images/" + nextProps,
     });
   };
 
-  UploadNewImages=()=>{
+  UploadNewMainImage = () => {
     var MImg = new FormData();
-    MImg.append('file',this.state.SelectedFeImg);
-    MImg.append('ImgId',this.props.productimg.Table[0].ImgId);
-    MImg.append('ImgPath',this.props.productimg.Table[0].ImgPath);
-    fetch('http://localhost:56482/api/EditProduct/EditMainImg',{
-      method:"POST",
-      body:MImg
+    MImg.append("file", this.state.SelectedFeImg);
+    MImg.append("ImgId", this.props.productimg.Table[0].ImgId);
+    MImg.append("ImgPath", this.props.productimg.Table[0].ImgPath);
+    fetch("http://localhost:56482/api/EditProduct/EditMainImg", {
+      method: "POST",
+      body: MImg,
     });
-  }
+  };
 
   EditfeatheImageHandler = (event) => {
     this.setState({
@@ -90,52 +93,124 @@ class EditItemModel extends Component {
     };
     reader.readAsDataURL(event.target.files[0]);
   };
-  removeFImage=(e)=>{
+  removeFImage = (e) => {
     e.preventDefault();
     this.setState({
-      mainImgUrl:null,
-      SelectedFeImg:null
-    })
-  }
+      mainImgUrl: null,
+      SelectedFeImg: null,
+    });
+  };
 
   // end main Image funtions
 
   // other Image funtions
-    OImgHandler=(nextProps)=>{
-      var oUrlTemp = [];
-      nextProps.productimg.Table1.forEach((file)=>{
-        oUrlTemp.push({Url:"http://localhost:56482/Images/"+file.ImgName,ImgId:file.ImgId,ImgPath:file.ImgPath})
-      })
-      this.setState({
-        OthImgUrl:oUrlTemp
-      })
+  UploadNewOtherImages = (id) => {
+    var eOImges = new FormData();
+    var ImgList = this.state.SelectedOtherImg;
+    for (let i = 0; i < ImgList.length; i++) {
+      eOImges.append("myFile[]", ImgList[i].file);
     }
-    removeOImage=(e,index)=>{
-      e.preventDefault();
-      var oImgUrlList = this.state.OthImgUrl;
-      oImgUrlList.splice(index,1);
-      this.setState({
-        OthImgUrl:oImgUrlList
+    eOImges.append("productId", id);
+    fetch("http://localhost:56482/api/EditProduct/EditOtherImages", {
+      method: "POST",
+      body: eOImges,
+    })
+      .then((res) => res.json())
+      .then((response) => console.log(response));
+  };
+
+  DeleteEditedImages=(list)=>{
+    fetch("http://localhost:56482/api/EditProduct/DeleteEditedImages", {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify({
+        List:list
       })
-    }
-    EditOtherImgHandler=(e)=>{
-      let files = Array.from(e.target.files);
-      files.forEach((file) => {
-        let reader = new FileReader();
-        reader.onload = () => {
-          this.setState({
-            SelectedOtherImg: [...this.state.SelectedOtherImg, file],
-            OthImgUrl: [...this.state.OthImgUrl, {Url:reader.result,ImgId:null,ImgPath:null}],
-          });
-        };
-        reader.readAsDataURL(file);
+    })
+      .then((res) => res.json())
+      .then((response) => console.log(response));
+  }
+
+  OImgHandler = (nextProps) => {
+    var oUrlTemp = [];
+    nextProps.productimg.Table1.forEach((file) => {
+      oUrlTemp.push({
+        NewPId: null,
+        Url: "http://localhost:56482/Images/" + file.ImgName,
+        ImgId: file.ImgId,
+        ImgPath: file.ImgPath,
+        IsNew: false,
+      });
+    });
+    this.setState({
+      OthImgUrl: oUrlTemp,
+    });
+  };
+  removeOImage = (e, index, newOne, id, path, NewPId) => {
+    e.preventDefault();
+    var oImgUrlList = this.state.OthImgUrl;
+    if (newOne) {
+      oImgUrlList.splice(index, 1);
+      this.setState({
+        OthImgUrl: oImgUrlList,
+      });
+      var selectImg = this.state.SelectedOtherImg;
+      selectImg.forEach((ImgFile, index) => {
+        if (ImgFile.id === NewPId) {
+          selectImg.splice(index, 1);
+        }
+      });
+      this.setState({
+        SelectedOtherImg: selectImg,
+      });
+    } else {
+      var deleteImgList = [...this.state.detailsForDeleteImg];
+      deleteImgList.push({ ImgId: id, ImgPath: path });
+      this.setState({
+        detailsForDeleteImg: deleteImgList,
+      });
+      oImgUrlList.splice(index, 1);
+      this.setState({
+        OthImgUrl: oImgUrlList,
       });
     }
+  };
+  EditOtherImgHandler = (e) => {
+    let files = Array.from(e.target.files);
+    files.forEach((file, index) => {
+      let reader = new FileReader();
+      let newPhoto = this.state.newPhoto;
+      newPhoto = newPhoto + (index + 1);
+      reader.onload = () => {
+        this.setState({
+          SelectedOtherImg: [
+            ...this.state.SelectedOtherImg,
+            { file: file, id: newPhoto },
+          ],
+          OthImgUrl: [
+            ...this.state.OthImgUrl,
+            {
+              NewPId: newPhoto,
+              Url: reader.result,
+              ImgId: null,
+              ImgPath: null,
+              IsNew: true,
+            },
+          ],
+        });
+      };
+      this.setState({
+        newPhoto: newPhoto,
+      });
+      reader.readAsDataURL(file);
+    });
+  };
   // end Other Image funtions
   render() {
     let content;
-    //let mainImage = null;
-    //let OtherImages = null;
     if (
       typeof this.props.product !== "undefined" &&
       typeof this.props.productimg !== "undefined"
@@ -146,45 +221,46 @@ class EditItemModel extends Component {
         mainImage = (
           <div className={MStyle.aImgWraper}>
             <a
-            href="#javascript"
+              href="#javascript"
               className={MStyle.removeBtn}
               onClick={this.removeFImage}
             >
               x
             </a>
             <img
-              src={
-                this.state.mainImgUrl
-              }
+              src={this.state.mainImgUrl}
               id={MStyle.fImg}
               alt={this.state.mainImgUrl}
             />
           </div>
         );
-      } 
+      }
 
       if (this.state.OthImgUrl.length !== 0) {
-        OtherImagePreview = this.state.OthImgUrl.map((Img,index)=>
+        OtherImagePreview = this.state.OthImgUrl.map((Img, index) => (
           <div className={MStyle.aImgWraper} key={index}>
             <a
               href="#/"
               className={MStyle.removeBtn}
-              onClick={(e)=>this.removeOImage(e,index)}
+              onClick={(e) =>
+                this.removeOImage(
+                  e,
+                  index,
+                  Img.IsNew,
+                  Img.ImgId,
+                  Img.ImgPath,
+                  Img.NewPId
+                )
+              }
             >
               x
             </a>
-            <img
-              src={
-                Img.Url
-              }
-              id={MStyle.fImg}
-              alt={Img.Url}
-            />
+            <img src={Img.Url} id={MStyle.fImg} alt={Img.Url} />
           </div>
-        );
+        ));
       }
       content = (
-        <Form onSubmit={this.hadlerSubmit}>
+        <Form onSubmit={()=>this.hadlerSubmit}>
           <div>
             <Row>
               <Col>

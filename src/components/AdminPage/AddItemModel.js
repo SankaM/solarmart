@@ -37,7 +37,7 @@ class AddItemModel extends Component {
         ItemName: event.target.ItemName.value,
         BuyPrice: event.target.BuyPrice.value,
         SellPrice: event.target.SellPrice.value,
-        CategoryId: event.target.Category.value,
+        CategoryId: this.refs.Category.value,
         ItemDetails: event.target.details.value,
         ProModel: event.target.ProModel.value,
         ProBrand: event.target.ProBrand.value,
@@ -55,7 +55,6 @@ class AddItemModel extends Component {
       .then(
         (result) => {
           this.setState({ SnackbarOpen: true, SnackbarMsg: result });
-          console.log(result);
         },
         (error) => {
           this.setState({
@@ -74,6 +73,7 @@ class AddItemModel extends Component {
       body: FImage,
     });
     this.uploadOtherImages(ProductId);
+    //this.props.onHide();
   };
 
   uploadOtherImages = (ProductId) => {
@@ -89,7 +89,6 @@ class AddItemModel extends Component {
     })
       .then((res) => res.json())
       .then((response) => console.log(response));
-    console.log("OtherImage function fired", OImges);
   };
 
   featheImageHandler = (event) => {
@@ -125,14 +124,14 @@ class AddItemModel extends Component {
     });
   };
   removeOImage = (index) => {
-    var oImgUrl =  this.state.OpreviewImageURL;
+    var oImgUrl = this.state.OpreviewImageURL;
     var OImg = this.state.selectedOImages;
-    oImgUrl.splice(index,1);
-    OImg.splice(index,1);
+    oImgUrl.splice(index, 1);
+    OImg.splice(index, 1);
     this.setState({
       selectedOImages: OImg,
-      OpreviewImageURL: oImgUrl
-    })
+      OpreviewImageURL: oImgUrl,
+    });
   };
   render() {
     let fImagePreview = null;
@@ -152,12 +151,12 @@ class AddItemModel extends Component {
       );
     }
     if (this.state.selectedOImages.length !== 0) {
-      OtherImagePreview = this.state.OpreviewImageURL.map((url,index) => (
+      OtherImagePreview = this.state.OpreviewImageURL.map((url, index) => (
         <div className={MStyle.aImgWraper} key={index}>
           <a
             href="#/"
             className={MStyle.removeBtn}
-            onClick={()=>this.removeOImage(index)}
+            onClick={() => this.removeOImage(index)}
           >
             x
           </a>
@@ -231,16 +230,21 @@ class AddItemModel extends Component {
                         type="text"
                         name="ProModel"
                         required
-                        placeholder="Item category"
+                        placeholder="Product Model"
                       />
                     </Form.Group>
                     <Form.Group>
                       <Form.Label>Category</Form.Label>
                       <Form.Control
-                        type="text"
-                        name="Category"
+                        as="select"
+                        ref="Category"
+                        required
                         placeholder="Item category"
-                      />
+                      >
+                      {this.props.catagory.map(cato=><option key={cato.CategoryId}
+                        value={cato.CategoryId}
+                        >{cato.CategoryName}</option>)}
+                      </Form.Control>
                     </Form.Group>
                   </Col>
                   <Col>
@@ -378,6 +382,7 @@ class AddItemModel extends Component {
                         id="browsFimage"
                         className="d-none"
                         onChange={this.featheImageHandler}
+                        required
                       />
                     </label>
                     <div>{fImagePreview}</div>

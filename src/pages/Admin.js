@@ -11,7 +11,7 @@ class Admin extends Component {
     super(props);
     this.state = {
       deps: [],
-      //proImgList: [],
+      catagory:[],
       addModelShow: false,
       editModelShow: false,
       addCatergory: false,
@@ -19,13 +19,36 @@ class Admin extends Component {
   }
   componentDidMount() {
     this.refreshList();
+    this.getCategory();
   }
-  refreshList() {
+
+componentDidUpdate(prevProps, prevState){
+  if(prevState.addModelShow !== this.state.addModelShow){
+      this.refreshList();
+      this.getCategory();
+  }
+}
+
+  refreshList=()=> {
     fetch("http://localhost:56482/api/EditProduct/GetUpdate")
       .then((responce) => responce.json())
       .then((data) => {
-        this.setState({ deps: data });
+        this.setState(
+          { deps: data }
+          );
       });
+  }
+
+  getCategory=()=>{
+    fetch("http://localhost:56482/api/Catagory/GetCategory").then(
+      response=>response.json()
+    ).then(
+      data=>{
+        this.setState({
+          catagory:data
+        })
+      }
+    )
   }
   getProImgList = (ItemId) => {
     fetch("http://localhost:56482/api/EditProduct/GetProdImgList/" + ItemId)
@@ -36,9 +59,6 @@ class Admin extends Component {
         });
       });
   };
-  // componentDidUpdate(){
-  //     this.refreshList();
-  // }
 
   DeleteProduct = (id) => {
     fetch("http://localhost:56482/api/AdminService/Delete/" + id, {
@@ -49,7 +69,10 @@ class Admin extends Component {
       },
     })
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => {
+        console.log(res);
+        this.refreshList();
+      });
   };
 
   render() {
@@ -63,6 +86,7 @@ class Admin extends Component {
     let addCategoryModelClose = () => {
       this.setState({ addCatergory: false });
     };
+   
     return (
       <Aux>
         <div className="container-flud">
@@ -144,7 +168,11 @@ class Admin extends Component {
             show={this.state.addCatergory}
             onHide={addCategoryModelClose}
           />
-          <AddItemModel show={this.state.addModelShow} onHide={addModelClose} />
+          <AddItemModel 
+          show={this.state.addModelShow} 
+          onHide={addModelClose}
+          catagory={this.state.catagory}
+          />
           <EditItemModel
             product={product}
             productimg={this.state.proImgList}

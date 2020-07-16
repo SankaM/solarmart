@@ -15,10 +15,18 @@ namespace SolarMart.Controllers
     {
 
         // GET api/values/5
-        public HttpResponseMessage Get()
-        {   DataTable tb = new DataTable();
-            string name = "lakmal";
-            return Request.CreateResponse(HttpStatusCode.OK,name);
+        public HttpResponseMessage GetCategory()
+        {
+            DataTable tb = new DataTable();
+            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
+            {
+                conn.Open();
+                string query = @"select * from Categories";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataReader dr = cmd.ExecuteReader();
+                tb.Load(dr);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, tb);
         }
 
         // POST api/values
