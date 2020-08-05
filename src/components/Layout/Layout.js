@@ -9,7 +9,7 @@ const catoDropdown = [Nav.catoDropDown,"input-group-append"].join(' ');
 const layout  = (props)=>(
     <Aux>
         <div className={Nav.Nav}>
-            <img src={Image} alt="Logo" className={Nav.logo}></img>
+            <a href="/" role="button" ><img src={Image} alt="Logo" className={Nav.logo}></img></a>
             <a href="C" className={Nav.nav_btn +' '+Nav.test}>Sine up</a>
             <a href="C" className={Nav.nav_btn}>Log in</a>
             <a href="C" className={Nav.nav_btn}>Help center</a>
@@ -21,9 +21,6 @@ const layout  = (props)=>(
                 </div>
               </div>
             </div>
-        </div>
-        <div className={Nav.main_heading}>
-            World best sola market
         </div>
         <main>
             {props.children}

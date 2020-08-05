@@ -91,7 +91,7 @@ componentDidUpdate(prevProps, prevState){
       <Aux>
         <div className="container-flud">
           <h3 className={[Astyle.heder, "mt-2"].join(" ")}>
-            SolarMart Administration
+            SLMart Administration
           </h3>
           <div className="row">
             <div className="col-2">

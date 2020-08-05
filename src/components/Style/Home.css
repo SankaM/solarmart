@@ -2,8 +2,8 @@
     display: flex;
 }
 .sideContainer{
-    flex: 25%;
+    flex: 20%;
 }
 .CardContainer{
-    flex: 75%;
+    flex: 80%;
 }

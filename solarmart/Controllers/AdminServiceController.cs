@@ -16,21 +16,6 @@ namespace SolarMart.Controllers
 {
     public class AdminServiceController : ApiController
     {
-        public HttpResponseMessage GetForCard()
-        {
-            DataTable tb = new DataTable();
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_GetProductForHome", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataReader dr = cmd.ExecuteReader();
-                tb.Load(dr);
-                return Request.CreateResponse(HttpStatusCode.OK, tb);
-            }
-
-        }
-
         public string Post(ItemModel item)
         {
             try

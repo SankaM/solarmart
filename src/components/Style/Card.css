@@ -1,14 +1,14 @@
 .cardWraper{
-    width: 220px;
-    height: 295px;
+    width: 245px;
+    height: 323px;
     margin: 6px 10px;
     background-color:#C3CDDB;
     border-radius: 5px;
     float: left;
 }
 .CImgSec{
-    height: 190px;
-    width: 210px;
+    height: 220px;
+    width: 235px;
     margin: 5px auto;
     background-color:#ffffff;
 }

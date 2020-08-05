@@ -175,4 +175,12 @@ C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\System.Diagnostics.Diagn
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Microsoft.AspNet.TelemetryCorrelation.xml
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\obj\Debug\SolarMart.csproj.CopyComplete
+C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Microsoft.IdentityModel.Logging.dll
+C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Microsoft.IdentityModel.Tokens.dll
+C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Microsoft.IdentityModel.JsonWebTokens.xml
+C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Microsoft.IdentityModel.Logging.xml
+C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Microsoft.IdentityModel.Tokens.xml
+C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\System.IdentityModel.Tokens.Jwt.xml
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\obj\Debug\SolarMart.csprojAssemblyReference.cache

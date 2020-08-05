@@ -57,7 +57,7 @@ class EditItemModel extends Component {
         }
       );
 
-    this.state.SelectedFeImg && this.UploadNewMainImage();
+    this.state.SelectedFeImg !== null && this.UploadNewMainImage();
     this.state.SelectedOtherImg.length !== 0 && this.UploadNewOtherImages(this.props.product.ProductId);
     this.state.detailsForDeleteImg.length !== 0 && this.DeleteEditedImages(this.state.detailsForDeleteImg);
   };
@@ -260,7 +260,7 @@ class EditItemModel extends Component {
         ));
       }
       content = (
-        <Form onSubmit={()=>this.hadlerSubmit}>
+        <Form onSubmit={this.hadlerSubmit}>
           <div>
             <Row>
               <Col>

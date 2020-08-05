@@ -17,6 +17,37 @@
     margin: 10px auto;
     border-radius: 5px;
 }
+.BrandNameFilter{
+    margin: 10px 0;
+    padding-bottom: 10px;
+    border-top: gray solid 1px;
+    border-bottom: gray solid 1px;
+}
+.filterPHead{
+    font-weight: 600;
+}
+.priceTag{
+    background-color: rgb(252, 41, 41);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 4px 8px;
+    border: 1px solid rgb(243, 30, 30);
+    border-radius: 20px;
+}
+.brandName{
+    color: black;
+    border: 1px black solid;
+    padding: 4px 10px;
+    margin: 3px 10px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+.catoName{
+    text-align: center;
+}
+.filterHead{
+    font-size: 16px;
+}
 @media(max-width:376px){
     .FcardContainer{
         padding-top: 1px;

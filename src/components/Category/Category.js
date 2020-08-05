@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Nav from "../Style/Layout.css";
 
-const Category = () => {
+const Category = (props) => {
   const [catagory, setCatagory] = useState([]);
   useEffect(() => {
     fetch("http://localhost:56482/api/Catagory/GetCategory")
@@ -17,7 +17,7 @@ const Category = () => {
       </div>
       <div className={Nav.CsubContainer}>
         {catagory.map(cato=>
-            <a href="#/" role="button" className={Nav.categoryItem} key={cato.CategoryId}>
+            <a href="#/" role="button" className={Nav.categoryItem} key={cato.CategoryId} onClick={(e)=>props.cardContent(cato.CategoryId,cato.CategoryName,e)}>
           {cato.CategoryName}
         </a>
         )}

@@ -16,18 +16,15 @@ namespace SolarMart.Controllers
     {   [System.Web.Http.HttpGet]
         public HttpResponseMessage Product(string id)
         {
-            //DataTable tb = new DataTable();
             using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("sp_getProductDetailsToItem", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", id);
-                //SqlDataReader dr = cmd.ExecuteReader();
                 var dataAdpter = new SqlDataAdapter(cmd);
                 var result = new DataSet();
                 dataAdpter.Fill(result);
-                //tb.Load(dr);
                 return Request.CreateResponse(HttpStatusCode.OK, result);
 
             }
