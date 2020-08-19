@@ -1,0 +1,53 @@
+.center{
+    text-align: center;
+}
+.loginContainer{
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+    padding: 20px 0;
+}
+.FormContainer{
+    background-color: rgb(126, 115, 115);
+    width: 30%;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+.LFHedSec{
+    text-align: center;
+}
+.formLogoImg{
+    width:100px;
+    /* margin: 10px auto; */
+}
+.LHader{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    color: cornsilk;
+}
+.formSec{
+    padding: 10px 10px;
+}
+.LogBtnSec{
+    text-align: center;
+}
+.errorMsg{
+    text-align: center;
+    margin-bottom: 10px;
+    color: red;
+    font-weight: 600;
+}
+/* UserLoginPage */
+.ulHader{
+    text-align: center;
+    color:rosybrown ;
+    font-weight: 700;
+     width: 100%;
+}
+.ulLoginHader{
+    font-style: inherit;
+    font-family: initial;
+    font-weight: 700;
+    color: darkblue;
+    text-align: center;
+}

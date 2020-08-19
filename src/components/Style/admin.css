@@ -17,3 +17,6 @@
 .deleteBtn{
     background-color: red;
 }
+.logoutBtn{
+    float: right;
+}

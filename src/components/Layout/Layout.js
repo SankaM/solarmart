@@ -1,30 +1,62 @@
-import React from 'react';
-import  Aux from '../../hoc/Wrap';
-import  Nav from '../Style/Layout.css';
-import Image from '../../Assets/null.png';
+import React, {Component } from "react";
+import Aux from "../../hoc/Wrap";
+import Nav from "../Style/Layout.css";
+import Image from "../../Assets/null.png";
+import LoginUserImg from "../../Assets/login.png";
+import UserLogin from "../UserLogin/UserLogin";
 
-
-const textArea = [Nav.Stestarea,"form-control"].join(' ');
-const catoDropdown = [Nav.catoDropDown,"input-group-append"].join(' ');
-const layout  = (props)=>(
-    <Aux>
-        <div className={Nav.Nav}>
-            <a href="/" role="button" ><img src={Image} alt="Logo" className={Nav.logo}></img></a>
-            <a href="C" className={Nav.nav_btn +' '+Nav.test}>Sine up</a>
-            <a href="C" className={Nav.nav_btn}>Log in</a>
-            <a href="C" className={Nav.nav_btn}>Help center</a>
+class layout extends Component {
+  constructor(props){
+      super(props);
+      this.state={
+        userLoginShow:false
+      }
+  }
+  closeLogMOdel=()=>{
+    this.setState({
+      userLoginShow:false
+    })
+  }
+  render(){
+    const textArea = [Nav.Stestarea, "form-control"].join(" ");
+    const catoDropdown = [Nav.catoDropDown, "input-group-append"].join(" ");
+    return (
+        <Aux>
+          <div className={Nav.Nav}>
+            <a href="/" role="button">
+              <img src={Image} alt="Logo" className={Nav.logo}></img>
+            </a>
+            <a href="#/" className={Nav.nav_btn} onClick={()=>this.setState({userLoginShow:true})}>
+              Log in
+              <img src={LoginUserImg} alt="User" className={Nav.UserLoginImg} />
+            </a>
+            <a href="C" className={Nav.nav_btn + " " + Nav.test}>
+              <i className={["fas fa-shopping-cart", Nav.cartBtn].join(" ")}></i>
+            </a>
+            <a href="C" className={Nav.nav_btn + " " + Nav.test}>
+              <i className={["fa fa-heart", Nav.cartBtn].join(" ")}></i>
+            </a>
             <div className={Nav.nav_t_container}>
-            <div className={"input-group mb-3"}>
-                <input type="text" className={textArea} placeholder="Search for anything"/>
-                <div className={catoDropdown}> 
-                  <span className={[Nav.searchBarText,"input-group-text"].join(" ")}>All categories</span>
+              <div className={"input-group mb-3"}>
+                <input
+                  type="text"
+                  className={textArea}
+                  placeholder="Search for anything"
+                />
+                <div className={catoDropdown}>
+                  <span
+                    className={[Nav.searchBarText, "input-group-text"].join(" ")}
+                  >
+                    All categories
+                  </span>
                 </div>
               </div>
             </div>
-        </div>
-        <main>
-            {props.children}
-        </main>
-    </Aux>
-);
+          </div>
+          <main>{this.props.children}</main>
+          <UserLogin show={this.state.userLoginShow} onHide={this.closeLogMOdel}/>
+        </Aux>
+      );
+  }
+};
 export default layout;

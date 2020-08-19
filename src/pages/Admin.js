@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Astyle from "../components/Style/admin.css";
 import Aux from "../hoc/Wrap";
+import {withRouter} from 'react-router-dom';
 import { Row, Table, Button, ButtonToolbar } from "react-bootstrap";
 import AddItemModel from "../components/AdminPage/AddItemModel";
 import EditItemModel from "../components/AdminPage/EditItemModel";
@@ -30,7 +31,7 @@ componentDidUpdate(prevProps, prevState){
 }
 
   refreshList=()=> {
-    fetch("http://localhost:56482/api/EditProduct/GetUpdate")
+    fetch("http://localhost:56482/api/AdminService/GetUpdate")
       .then((responce) => responce.json())
       .then((data) => {
         this.setState(
@@ -51,7 +52,7 @@ componentDidUpdate(prevProps, prevState){
     )
   }
   getProImgList = (ItemId) => {
-    fetch("http://localhost:56482/api/EditProduct/GetProdImgList/" + ItemId)
+    fetch("http://localhost:56482/api/AdminService/GetProdImgList/" + ItemId)
       .then((res) => res.json())
       .then((ImgList) => {
         this.setState({
@@ -75,6 +76,11 @@ componentDidUpdate(prevProps, prevState){
       });
   };
 
+  logout=()=>{
+    localStorage.removeItem("SolrMUserJwt");
+    this.props.history.push("/Login");
+  }
+
   render() {
     const { product } = this.state;
     let addModelClose = () => {
@@ -89,7 +95,10 @@ componentDidUpdate(prevProps, prevState){
    
     return (
       <Aux>
-        <div className="container-flud">
+        <div className="container-fluid">
+          <div>
+            <button className={Astyle.logoutBtn} onClick={this.logout}>Logout</button>
+          </div>
           <h3 className={[Astyle.heder, "mt-2"].join(" ")}>
             SLMart Administration
           </h3>
@@ -185,4 +194,4 @@ componentDidUpdate(prevProps, prevState){
   }
 }
 
-export default Admin;
+export default withRouter(Admin);

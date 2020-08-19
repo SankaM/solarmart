@@ -37,12 +37,13 @@ class Item extends Component {
     const Images = this.state.Images;
     return (
       <Layout>
-        {product && (
-          <h2 className={ItemStyle.prodName}>
-            {this.state.product[0].ProModel} {this.state.product[0].ProBrand} (
-            {this.state.product[0].ProColor})
-          </h2>
-        )}
+      {product && (
+        <h2 className={ItemStyle.prodName}>
+          {this.state.product[0].ProModel} {this.state.product[0].ProBrand} (
+          {this.state.product[0].ProColor})
+        </h2>
+      )}
+        <div className="container">
         <div className="row">
           <div className="col-6">
             {Images ? <Slider ImgList={Images} /> : null}
@@ -54,6 +55,7 @@ class Item extends Component {
         ) : null}
 
         <Rproduct />
+        </div>
       </Layout>
     );
   }

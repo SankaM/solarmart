@@ -22,7 +22,7 @@ class EditItemModel extends Component {
   hadlerSubmit = (event) => {
     event.preventDefault();
     // eslint-disable-next-line no-unused-expressions
-    fetch("http://localhost:56482/api/EditProduct/UpdateProduct", {
+    fetch("http://localhost:56482/api/AdminService/UpdateProduct", {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -75,7 +75,7 @@ class EditItemModel extends Component {
     MImg.append("file", this.state.SelectedFeImg);
     MImg.append("ImgId", this.props.productimg.Table[0].ImgId);
     MImg.append("ImgPath", this.props.productimg.Table[0].ImgPath);
-    fetch("http://localhost:56482/api/EditProduct/EditMainImg", {
+    fetch("http://localhost:56482/api/AdminService/EditMainImg", {
       method: "POST",
       body: MImg,
     });
@@ -111,7 +111,7 @@ class EditItemModel extends Component {
       eOImges.append("myFile[]", ImgList[i].file);
     }
     eOImges.append("productId", id);
-    fetch("http://localhost:56482/api/EditProduct/EditOtherImages", {
+    fetch("http://localhost:56482/api/AdminService/EditOtherImages", {
       method: "POST",
       body: eOImges,
     })
@@ -120,7 +120,7 @@ class EditItemModel extends Component {
   };
 
   DeleteEditedImages=(list)=>{
-    fetch("http://localhost:56482/api/EditProduct/DeleteEditedImages", {
+    fetch("http://localhost:56482/api/AdminService/DeleteEditedImages", {
       method: "DELETE",
       headers: {
         Accept: "application/json",

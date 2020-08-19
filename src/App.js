@@ -6,6 +6,7 @@ import item from './pages/Item';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Admin from './pages/Admin';
+import AutheticatedComponent from './components/AuthenticatedComponent/AutheticatedComponent';
 
 class App extends Component {
     render(){
@@ -17,7 +18,9 @@ class App extends Component {
             <Route exact path="/Item/:id"component={item}/>
             <Route exact path="/Login"component={Login}/>
             <Route exact path="/Register"component={Register}/>
-            <Route exact path="/Admin"component={Admin}/>
+            <AutheticatedComponent>
+              <Route exact path="/Admin"component={Admin}/>
+            </AutheticatedComponent>
             <Redirect to="/404"/>
           </Switch>
         </Router>
