@@ -14,11 +14,9 @@ class UserRegister extends Component {
       cpwerrMsg: "",
       emErrorMsg:""
     };
-    this.setState({
-      cpwerrMsg: "",
-    });
   }
   ValidateEmail = (mail) => {
+    //eslint-disable-next-line
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (mail.match(mailformat)) {
       return true;

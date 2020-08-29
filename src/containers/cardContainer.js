@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Aux from "../hoc/Wrap";
 import Card from "../components/Card/card";
 import Cstyle from "../components/Style/container.css";
-import { Link } from "react-router-dom";
 
 class cardContainer extends Component {
   constructor(props) {
@@ -55,7 +54,6 @@ class cardContainer extends Component {
       max: 0,
       min: 0,
     });
-    console.log("fuck3");
   };
   filterAsBrand = (e, name) => {
     e.preventDefault();
@@ -76,15 +74,15 @@ class cardContainer extends Component {
         <div className={Cstyle.FcardContainer}>
           <h4>latest updated products</h4>
           {this.state.allProducts.map((prod) => (
-            <Link to={["/Item/", prod.ProductId].join("")} key={prod.ProductId}>
-              <Card
-                proPrice={prod.SellPrice}
-                proModel={prod.ProModel}
-                proBrand={prod.ProBrand}
-                proName={prod.productname}
-                proImg={prod.ImgName}
-              />
-            </Link>
+            <Card
+              proPrice={prod.SellPrice}
+              proModel={prod.ProModel}
+              proBrand={prod.ProBrand}
+              proName={prod.productname}
+              proImg={prod.ImgName}
+              proId={prod.ProductId}
+              key={prod.ProductId}
+            />
           ))}
         </div>
       );
@@ -136,18 +134,15 @@ class cardContainer extends Component {
             </div>
             {priceFilter}
             {this.state.filteredProduct.map((prod) => (
-              <Link
-                to={["/Item/", prod.ProductId].join("")}
+              <Card
+                proPrice={prod.SellPrice}
+                proModel={prod.ProModel}
+                proBrand={prod.ProBrand}
+                proName={prod.productname}
+                proImg={prod.ImgName}
+                proId={prod.ProductId}
                 key={prod.ProductId}
-              >
-                <Card
-                  proPrice={prod.SellPrice}
-                  proModel={prod.ProModel}
-                  proBrand={prod.ProBrand}
-                  proName={prod.productname}
-                  proImg={prod.ImgName}
-                />
-              </Link>
+              />
             ))}
           </div>
         );

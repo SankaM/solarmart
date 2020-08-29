@@ -1,51 +1,37 @@
 import React, { Component } from "react";
 import Aux from "../../hoc/Wrap";
-import { Modal, Container ,Form} from "react-bootstrap";
+import { Modal, Container, Form } from "react-bootstrap";
 import ACss from "../Style/AuthPage.css";
-import RegisterModel from "../UserRegister/UserRegister";
-import axios from "axios";
+import { CircularProgress } from "@material-ui/core";
+
+// import axios from "axios";
+import { connect } from "react-redux";
+import * as LayoutAction from "../../store/actions/indexAcc";
 
 class UserLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      regModShow: false,
+      // regModShow: false,
       Uemail: "",
       Upassword: "",
     };
   }
-  registerUser = () => {
-    this.props.onHide();
-    this.setState({
-      regModShow: true,
-    });
-  };
 
   UserCredactialHandler = (e) => {
     this.setState({
-      [e.target.name]:e.target.value
-    })
+      [e.target.name]: e.target.value,
+    });
   };
 
   submit = (e) => {
     e.preventDefault();
-    axios
-      .get(
-        "http://localhost:56482/api/Account/ValidAdminLogin?email=" +
-        this.state.Uemail +
-          "&password=" +
-          this.state.Upassword
-      )
-      .then((res) => {
-        localStorage.setItem("SolrMUt", res.data);
-      })
-      .catch((error) => {
-        alert(error);
-      });
+    this.props.userLogin(this.state.Uemail, this.state.Upassword);
   };
   render() {
-    return(
+    return (
       <Aux>
+
         <Modal
           {...this.props}
           aria-labelledby="contained-modal-title-vcenter"
@@ -56,49 +42,65 @@ class UserLogin extends Component {
           </Modal.Header>
           <Modal.Body className="show-grid">
             <Container>
-              <h3 className={ACss.ulLoginHader}>Login</h3>
-              <Form onSubmit={(e)=>this.submit(e)}>
-                <div className={ACss.formSec}>
-                  <div className="form-group">
-                    <label>Email</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="Uemail"
-                      onChange={(e) => this.UserCredactialHandler(e)}
-                    />
+              <div className={ACss.UloginContainer}>
+                <h3 className={ACss.ulLoginHader}>Login</h3>
+                <Form onSubmit={(e) => this.submit(e)}>
+                  <div className={ACss.formSec}>
+                    <div className="form-group">
+                      <label>Email</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="Uemail"
+                        onChange={(e) => this.UserCredactialHandler(e)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Password</label>
+                      <input
+                        className="form-control"
+                        type="password"
+                        name="Upassword"
+                        onChange={(e) => this.UserCredactialHandler(e)}
+                      />
+                    </div>
+                    <div className={["form-group", ACss.LogBtnSec].join(" ")}>
+                      <button type="submit" className="btn btn-primary">
+                        Login
+                      </button>
+                    </div>
                   </div>
-                  <div className="form-group">
-                    <label>Password</label>
-                    <input
-                      className="form-control"
-                      type="password"
-                      name="Upassword"
-                      onChange={(e) => this.UserCredactialHandler(e)}
-                    />
-                  </div>
-                  <div className={["form-group", ACss.LogBtnSec].join(" ")}>
-                    <button type="submit" className="btn btn-primary">
-                      Login
-                    </button>
-                  </div>
+                </Form>
+                <div className={ACss.center}>
+                  If you don't have SLMart Account{" "}
+                  <a href="#/" onClick={() => this.props.registerUserOpen()}>
+                    Register
+                  </a>{" "}
+                  here
                 </div>
-              </Form>
-              <div className={ACss.center}>
-                If you don't have SLMart Account{" "}
-                <a href="#/" onClick={() => this.registerUser()}>
-                  Register
-                </a>{" "}
-                here
+                {this.props.spiner ? (
+                  <CircularProgress className={ACss.spinerWraper} />
+                ) : null}
               </div>
             </Container>
           </Modal.Body>
         </Modal>
-        <RegisterModel show={this.state.regModShow} onHide={()=>this.setState({
-          regModShow:false
-        })}/>
       </Aux>
     );
   }
 }
-export default UserLogin;
+
+const mapStateToProps = (state) => {
+  return {
+    spiner: state.lor.userLoginSpiner,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    registerUserOpen: () => dispatch({ type: "REGUSERINLOG" }),
+    userLogin: (email, password) =>
+      dispatch(LayoutAction.USerlogin(email, password)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(UserLogin);

@@ -12,14 +12,24 @@
     float: right;
     background-color: #C4C4C4;
     padding: 8px 10px;
-    margin: 5px 5px;
+    margin: 5px 8px;
     border-radius: 5px;
     text-decoration: none;
     font-family: 'Libre Baskerville', serif;
     color: black;
+    position: relative;
 }
 .cartBtn{
     color: green;
+}
+.noOfItem{
+    position: absolute;
+    bottom: -11px;
+    right: -9px;
+    background-color: bisque;
+    border-radius: 56px;
+    padding: 0 7px;
+    border: 2px solid rgb(243, 34, 34);
 }
 .nav_btn:hover{
     text-decoration: none;

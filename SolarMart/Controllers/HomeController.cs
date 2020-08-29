@@ -11,14 +11,18 @@ using SolarMart.Models;
 using System.Web;
 using System.IO;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace SolarMart.Controllers
 {
     public class HomeController : ApiController
     {
+        //[CustomAuthenticationFilter]
         public HttpResponseMessage GetForCardAll()
         {
             DataTable tb = new DataTable();
+            //var claimsIdenetity = this.User.Identity as ClaimsIdentity;
+            //var userEmail = User.Identity.Name;
             using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
             {
                 conn.Open();
@@ -28,7 +32,6 @@ namespace SolarMart.Controllers
                 tb.Load(dr);
                 return Request.CreateResponse(HttpStatusCode.OK, tb);
             }
-
         }
 
         public HttpResponseMessage GetForCard(int id)
@@ -46,7 +49,7 @@ namespace SolarMart.Controllers
             }
 
         }
-
+        
         public HttpResponseMessage GetProBrand(int id)
         {
             DataTable dataTable = new DataTable();

@@ -12,14 +12,14 @@ namespace SolarMart
     {
         private static string Secret = "MN05OPLoDvbTTa/QlqLNMI7cPlguaRyHzyg7n5qNBVjQmtBhz4SZyH4NBVCXi3KJHlSXKP+oi2+bXr6CUytr";
 
-        public static string GenarateToken(string userName)
+        public static string GenarateToken(string UserId)
         {
             byte[] key = Convert.FromBase64String(Secret);
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
             SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(claims: new[] { new Claim(type: ClaimTypes.Name, value: userName) }),
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Subject = new ClaimsIdentity(claims: new[] {new Claim(type:ClaimTypes.Name,value:UserId) }),
+                Expires = DateTime.UtcNow.AddMinutes(43200),
                 SigningCredentials = new SigningCredentials(securityKey, algorithm: SecurityAlgorithms.HmacSha256Signature)
             };
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();

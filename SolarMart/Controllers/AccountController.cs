@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 
 namespace SolarMart.Controllers
@@ -28,9 +29,10 @@ namespace SolarMart.Controllers
                 DataTable tb = new DataTable();
                 tb.Load(reader);
                 string user = tb.Rows[0][0].ToString();
+                string userId = tb.Rows[0][1].ToString();
                 if (user == "true")
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, value: TokenManager.GenarateToken(email));
+                    return Request.CreateResponse(HttpStatusCode.OK, value: TokenManager.GenarateToken(userId));
                 }
                 else
                 {
@@ -57,9 +59,10 @@ namespace SolarMart.Controllers
                     DataTable tb = new DataTable();
                     tb.Load(reader);
                     string user = tb.Rows[0][0].ToString();
+                    string userId = tb.Rows[0][1].ToString();
                     if (user=="true")
                     {
-                        return Request.CreateResponse(HttpStatusCode.OK, value: TokenManager.GenarateToken(email));
+                        return Request.CreateResponse(HttpStatusCode.OK, value: TokenManager.GenarateToken(userId));
                     }
                     else
                     {
@@ -76,9 +79,24 @@ namespace SolarMart.Controllers
 
         [HttpGet]
         [CustomAuthenticationFilter]
-        public HttpResponseMessage GetEmployee()
+        public HttpResponseMessage CurrentUsername()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, value: "SuccessFully Valid");
+            var claimIdentity = this.User.Identity as ClaimsIdentity;
+            int CurrentuserId = Int32.Parse(User.Identity.Name);
+            string username = null;
+            using(var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_getCurrentUser", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CurrentuserId", CurrentuserId);
+                SqlDataReader reader = cmd.ExecuteReader();
+                DataTable tb = new DataTable();
+                tb.Load(reader);
+                username = tb.Rows[0][0].ToString();
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, value: username);
         }
         //front end test framework mocha, enzyme and jsDom
     }

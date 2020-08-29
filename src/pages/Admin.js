@@ -77,7 +77,7 @@ componentDidUpdate(prevProps, prevState){
   };
 
   logout=()=>{
-    localStorage.removeItem("SolrMUserJwt");
+    localStorage.removeItem("SolrMAt");
     this.props.history.push("/Login");
   }
 
