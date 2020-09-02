@@ -17,7 +17,7 @@ class CustomSnakbar extends Component{
             <Aux>
                 <Snackbar
                     open={this.props.snakbarOpen}
-                    autoHideDuration={3000}
+                    autoHideDuration={5000}
                     onClose={this.snakHandleClose}
                 >
                     <Alert 

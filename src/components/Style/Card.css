@@ -86,6 +86,12 @@
     color: #ffffff;
     padding-top: 10px;
 }
+.cardLink{
+  color: #ffffff;
+}
+.cardLink:hover{
+  color: #ffffff;;
+}
 @media (max-width: 375px) {
   .cardWraper {
     width: 165px;

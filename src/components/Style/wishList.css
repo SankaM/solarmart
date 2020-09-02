@@ -1,0 +1,18 @@
+.wlistHader{
+    text-align: center;
+    font-family: emoji;
+    font-weight: 600;
+    color: darkblue;
+}
+.center{
+    text-align: center;
+}
+.ItemImg{
+    width: 75px;
+    height: 80px;
+}
+.wishItemCardConteiner{
+    background-color: #ffffff;
+    padding: 10px 20px;
+    border: solid 1px rgb(218, 213, 213);
+}

@@ -12,3 +12,14 @@ export const setSankBar = (
     snakbarMessage
   }
 };
+
+export const alertDiologOpen=()=>{
+  return{
+    type:actionType.ALERT_DILOG_OPEN
+  }
+}
+export const alertDiologClose=()=>{
+  return{
+    type:actionType.ALERT_DILOG_CLOSE
+  }
+}

@@ -3,10 +3,28 @@ import Aux from "../../hoc/Wrap";
 import Card from "../Style/Card.css";
 import { Link } from "react-router-dom";
 
+
 import {connect} from 'react-redux';
 import * as cardActions from '../../store/actions/indexAcc';
 
 class card extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      fcolor:"white",
+      cColor:"white"
+    }
+  }
+  changefBtnColor=()=>{
+    this.setState({
+      fcolor:"green"
+    })
+  }
+  changeCBtnColor=()=>{
+    this.setState({
+      cColor:"green"
+    })
+  }
   render() {
     return (
       <Aux>
@@ -20,7 +38,7 @@ class card extends Component {
             <div className={Card.cardAction}>
               <div className="row">
                 <div className={["col", Card.cardImIcon].join(" ")}>
-                  <a href="#/">
+                  <a href="#/" style={{color:this.state.cColor}} onClick={()=>{this.props.addItemToCart(this.props.IsUserExist,this.props.proId);this.changeCBtnColor()}}>
                     <i
                       className={["fas fa-shopping-cart", Card.cardBtn].join(
                         " "
@@ -29,7 +47,7 @@ class card extends Component {
                   </a>
                 </div>
                 <div className={["col", Card.cardImIcon].join(" ")}>
-                  <a href="#/" onClick={()=>this.props.addItemToWishList(this.props.IsUserExist,this.props.proId)}>
+                  <a href="#/" style={{color:this.state.fcolor}} onClick={()=>{this.props.addItemToWishList(this.props.IsUserExist,this.props.proId);this.changefBtnColor()}}>
                     <i className={["fa fa-heart", Card.cardBtn].join(" ")}></i>
                   </a>
                 </div>
@@ -65,7 +83,8 @@ const mapStateToProps=(state)=>{
 }
 const mapDispatchToProps=(dispatch)=>{
 return{
-  addItemToWishList : (IsUserExist,id)=>dispatch(cardActions.addItemToWishList(IsUserExist,id))
+  addItemToWishList : (IsUserExist,id)=>dispatch(cardActions.addItemToWishList(IsUserExist,id)),
+  addItemToCart : (IsUserExist,id)=>dispatch(cardActions.addItemToCart(IsUserExist,id))
 }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(card);

@@ -1,7 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 import {Url,getUserToken} from '../../Helpers/Jwt';
-import {setSankBar} from './indexAcc';
+import {setSankBar,getNoOfWishItem} from './indexAcc';
 
 export const loginModOpen = () => {
   return {
@@ -67,6 +67,7 @@ export const USerlogin = (email, password) => {
         dispatch(getUsercToken());
         dispatch(loginModClose());
         dispatch(getCurrentUserName());
+        dispatch(getNoOfWishItem());
         dispatch(setSankBar(true,"success","successfully logged in"));
       })
       .catch((error) => {

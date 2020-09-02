@@ -11,8 +11,12 @@ export {
 } from "./LayoutAcc";
 export {
     addItemToWishList,
-    getNoOfWishItem
+    getNoOfWishItem,
+    addItemToCart,
+    getNoOfCartItem
 }from "./cardAcc";
 export{
-    setSankBar
+    setSankBar,
+    alertDiologOpen,
+    alertDiologClose
 }from "./snakBarAcc";

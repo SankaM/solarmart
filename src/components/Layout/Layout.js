@@ -8,21 +8,22 @@ import RegisterModel from "../UserRegister/UserRegister";
 
 import { connect } from "react-redux";
 import * as LayoutActions from "../../store/actions/indexAcc";
-import {getUserToken} from "../../Helpers/Jwt";
+import { getUserToken } from "../../Helpers/Jwt";
 
 class layout extends Component {
-  closeLogMOdel = () => {
-    this.setState({
-      userLoginShow: false,
-    });
-  };
+  // closeLogMOdel = () => {
+  //   this.setState({
+  //     userLoginShow: false,
+  //   });
+  // };
 
   componentWillMount() {
     this.props.IsUserLOgin();
     var user = getUserToken();
-    if(user){
+    if (user) {
       this.props.getCurrentUserName();
       this.props.getNoOfWishItem();
+      this.props.getNoOfCartItem();
     }
   }
   render() {
@@ -52,14 +53,33 @@ class layout extends Component {
               <img src={LoginUserImg} alt="User" className={Nav.UserLoginImg} />
             </a>
           )}
-          <a href="C" className={Nav.nav_btn + " " + Nav.test}>
-            <i className={["fas fa-shopping-cart", Nav.cartBtn].join(" ")}></i>
-            <span className={Nav.noOfItem}>5</span>
-          </a>
-          <a href="C" className={Nav.nav_btn + " " + Nav.test}>
-            <i className={["fa fa-heart", Nav.cartBtn].join(" ")}></i>
-            <span className={Nav.noOfItem}>{this.props.NoOfwishItems}</span>
-          </a>
+
+          {this.props.Islogin ? (
+            <a href="/Cart" className={Nav.nav_btn + " " + Nav.test}>
+              <i
+                className={["fas fa-shopping-cart", Nav.cartBtn].join(" ")}
+              ></i>
+              <span className={Nav.noOfItem}>{this.props.NoOfCartItems}</span>
+            </a>
+          ) : (
+            <a href="#/" className={Nav.nav_btn + " " + Nav.test} onClick={()=>this.props.logModelOpen()}>
+              <i
+                className={["fas fa-shopping-cart", Nav.cartBtn].join(" ")}
+              ></i>
+              <span className={Nav.noOfItem}>0</span>
+            </a>
+          )}
+          {this.props.Islogin ? (
+            <a href="/wishList" className={Nav.nav_btn + " " + Nav.test}>
+              <i className={["fa fa-heart", Nav.cartBtn].join(" ")}></i>
+              <span className={Nav.noOfItem}>{this.props.NoOfwishItems}</span>
+            </a>
+          ) : (
+            <a href="#/" className={Nav.nav_btn + " " + Nav.test} onClick={()=>this.props.logModelOpen()}>
+              <i className={["fa fa-heart", Nav.cartBtn].join(" ")}></i>
+              <span className={Nav.noOfItem}>0</span>
+            </a>
+          )}
           <div className={Nav.nav_t_container}>
             <div className={"input-group mb-3"}>
               <input
@@ -97,9 +117,11 @@ const mapStateToProps = (state) => {
     UsrRegis: state.lor.registerModShow,
     Islogin: state.lor.userLogin,
     currUserName: state.lor.currentUserName,
-    NoOfwishItems:state.cr.noOfWishListItem
+    NoOfwishItems: state.cr.noOfWishListItem,
+    NoOfCartItems: state.cr.noOfCartItem,
   };
 };
+
 const mapDispatchToProps = (dispatch) => {
   return {
     logModelOpen: () => dispatch(LayoutActions.loginModOpen()),
@@ -110,7 +132,9 @@ const mapDispatchToProps = (dispatch) => {
     userLogout: () => dispatch(LayoutActions.Userlogout()),
     getCurrentUserName: () => dispatch(LayoutActions.getCurrentUserName()),
     getNoOfWishItem: () => dispatch(LayoutActions.getNoOfWishItem()),
-    setSnak:(open,type,message)=>dispatch(LayoutActions.setSankBar(open,type,message))
+    getNoOfCartItem: () => dispatch(LayoutActions.getNoOfCartItem()),
+    setSnak: (open, type, message) =>
+    dispatch(LayoutActions.setSankBar(open, type, message)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(layout);

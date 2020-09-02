@@ -1,0 +1,43 @@
+.cartContainer{
+    width: 95%;
+    margin: 20px auto;
+}
+
+.prodImg{
+    width: 65px;
+    height: 75px;
+}
+.tableContainer{
+    padding: 10px 20px;
+    background-color: #ffffff;
+}
+.SummaryCantainer{
+    padding: 10px 20px;
+    background-color: #ffffff;
+}
+.summaryHader{
+    text-align: center;
+    font-size: 22px;
+    color: rgb(63, 43, 43);
+    font-family: serif;
+    font-weight: 700;
+}
+.summaryRow{
+    margin: 20px 0;
+}
+.summaryBtn{
+    margin: 0 auto !important;
+    width: 85%;
+}
+.summarySpan{
+    font-weight: 700;
+    padding: 5px 15px;
+    color: rgb(121, 117, 117);
+}
+.tsummarySpan{
+    font-weight: 700;
+    color: rgb(94, 87, 87);
+    border: rgb(196, 181, 181) solid 1px;
+    padding: 5px 15px;
+    background-color: rgb(224, 210, 210);;
+}
