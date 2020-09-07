@@ -11,11 +11,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 import LayoutRedu from './store/reducers/LayoutRedu';
 import CardRedu from './store/reducers/cardRedu';
 import SnakbarRedu from './store/reducers/snakbarRedu';
+import CartRedu from './store/reducers/cartRedu';
 
 const rootReducer = combineReducers({
     lor:LayoutRedu,
     cr:CardRedu,
-    sbr:SnakbarRedu
+    sbr:SnakbarRedu,
+    ctr:CartRedu
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

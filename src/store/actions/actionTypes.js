@@ -14,10 +14,17 @@ export const UPDATE_CURRENTUSER ='UPDATE_CURRENTUSER'
 // card action
 export const  UPDATE_WISHLIST = 'UPDATE_WISHLIST';
 export const  UPDATE_CART = 'UPDATE_CART';
-export const GET_NO_OF_WISHITEM ='GET_NO_OF_WISHITEM'
+export const GET_NO_OF_WISHITEM ='GET_NO_OF_WISHITEM';
+
 // sankBarAcc
 export const SET_SNAKBAR = 'SET_SNAKBAR';
 export const ALERT_DILOG_OPEN ='ALERT_DILOG_OPEN';
 export const ALERT_DILOG_CLOSE ='ALERT_DILOG_CLOSE';
+export const DELETE_ITEMFROM_CART = 'DELETE_ITEMFROM_CART';
+export const DEL_CONF_B_OPEN = 'DEL_CONF_B_OPEN';
+export const DEL_CONF_B_CLOSE = 'DEL_CONF_B_CLOSE';
+
+// Cart action
+export const UPDATE_CARTITEM = 'UPDATE_CARTITEM';
 
 

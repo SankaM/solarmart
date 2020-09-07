@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stripe;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,6 +19,7 @@ namespace SolarMart
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            StripeConfiguration.ApiKey = "sk_test_51HNcAOHeIC10TyBvPENDYzqs9ThW9tTg4io9uXoAFVfGhIBMpcJy6taVrvHgZagnlHW0LfXJE6JJJYaS2eWBQ38l005LSAJEsG";
         }
     }
 }

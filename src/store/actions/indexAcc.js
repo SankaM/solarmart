@@ -18,5 +18,11 @@ export {
 export{
     setSankBar,
     alertDiologOpen,
-    alertDiologClose
+    alertDiologClose,
+    deleteItemFromCart,
+    delConfBOpen,
+    delConfBClose
 }from "./snakBarAcc";
+export{
+    getCarttems
+}from "./cartAcc";

@@ -3,14 +3,16 @@ import Layout from "../components/Layout/Layout";
 import CartS from "../components/Style/cart.css";
 import { Table } from "react-bootstrap";
 import { Checkbox } from "@material-ui/core";
-import { getUserToken, Url } from "../Helpers/Jwt";
-import axios from "axios";
+
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import DeleteIcon from "@material-ui/icons/Delete";
 import NativeSelect from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from '@material-ui/core/Button';
+import * as cartActions from '../store/actions/indexAcc';
+import {connect} from 'react-redux';
+
 
 class Cart extends Component {
   constructor(props) {
@@ -20,13 +22,13 @@ class Cart extends Component {
       order: [],
       itemQuentity: [],
       subTotal: 0,
-      shipingRental: 219,
+      shipingRental: 0,
       total: 0,
     };
   }
 
   componentDidMount() {
-    this.getCarttems();
+    this.props.getCartItems();
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevState.order !== this.state.order) {
@@ -34,35 +36,19 @@ class Cart extends Component {
     }
   }
   updateSummery = () => {
-    //alert("fire")
     let oders = [...this.state.order];
     let calsubtotal = 0;
+    console.log(oders.length);
     oders.forEach((order) => {
       calsubtotal = calsubtotal + order.price * order.quentity;
     });
     this.setState({
+      shipingRental: 219 * this.state.order.length,
       subTotal: calsubtotal,
-      total: calsubtotal + this.state.shipingRental,
+      total: calsubtotal + 219 * this.state.order.length,
     });
   };
-  getCarttems = () => {
-    const user = getUserToken();
-    axios({
-      method: "GET",
-      url: Url + "/CartAndWishList/getCartItemList",
-      headers: {
-        Authorization: `Beares ${user}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((itemList) => {
-        this.setState({
-          cartItems: itemList.data,
-        });
-      })
-      .catch((err) => console.log(err));
-  };
-
+  
   addItemToSummary = (e, price, ItemId) => {
     let order = [...this.state.order];
     let oquatity = [...this.state.itemQuentity];
@@ -133,7 +119,7 @@ class Cart extends Component {
   };
   render() {
     let cartItemList = <h1>Loading</h1>;
-    if (this.state.cartItems) {
+    if (this.props.cartItems) {
       cartItemList = (
         <div className={CartS.tableContainer}>
           <Table striped bordered hover>
@@ -146,7 +132,7 @@ class Cart extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.cartItems.map((Item) => (
+              {this.props.cartItems.map((Item) => (
                 <tr key={Item.ProductId}>
                   <td>
                     <Checkbox
@@ -177,12 +163,12 @@ class Cart extends Component {
                     <div className="row">Rs :{Item.SellPrice}</div>
                     <div className="row">
                       <div className="col-6">
-                        <IconButton color="default" component="span">
+                        <IconButton color="default" component="span" onClick={()=>this.props.delConfBox(Item.ProductId)}>
                           <DeleteIcon fontSize="small" />
                         </IconButton>
                       </div>
                       <div className="col-6">
-                        <IconButton style={{ color: "red" }} component="span">
+                        <IconButton style={{ color: "red" }} component="span" onClick={()=>this.props.openconfm(Item.ProductId)}>
                           <FavoriteIcon fontSize="small" />
                         </IconButton>
                       </div>
@@ -238,7 +224,7 @@ class Cart extends Component {
                     <span className={CartS.summarySpan}>Shipping Fee</span>
                   </div>
                   <div className="col-5">
-                    <span className={CartS.summarySpan}>Rs : 219</span>
+                    <span className={CartS.summarySpan}>Rs : {this.state.shipingRental}</span>
                   </div>
                 </div>
                 <div className={["row", CartS.summaryRow].join(" ")}>
@@ -256,11 +242,10 @@ class Cart extends Component {
                     variant="contained"
                     color="secondary"
                     className={CartS.summaryBtn}
-                    //className={classes.button}
-                    //endIcon={<Icon>send</Icon>}
                   >
                     PROCEED TO CHECKOUT
                   </Button>
+                  <a href="/checkout" className="btn btn-primary">PROCEED TO CHECKOUT</a>
                 </div>
               </div>
             </div>
@@ -271,4 +256,18 @@ class Cart extends Component {
   }
 }
 
-export default Cart;
+const mapStateToProps=(state)=>{
+  return{
+    cartItems:state.ctr.cardItems,
+  }
+}
+
+const mapDispatchToProps=(dispatch)=>{
+  return{
+    openconfm : (ItemId)=>dispatch(cartActions.alertDiologOpen(ItemId)),
+    delConfBox : (ItemId)=>dispatch(cartActions.delConfBOpen(ItemId)),
+    getCartItems:()=>dispatch(cartActions.getCarttems())
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Cart);

@@ -86,7 +86,7 @@ export const addItemToCart=(IsUserExist,id)=>{
             }).then(
                 res=>{
                     dispatch(setSankBar(true,"success",res.data))
-                    dispatch(updateCartList())
+                    dispatch(getNoOfCartItem())
                 }
             ).catch(
                 err=>dispatch(setSankBar(true,"error",err.message))

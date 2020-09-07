@@ -206,5 +206,34 @@ namespace SolarMart.Controllers
                 return exe;
             }
         }
+
+
+        [HttpDelete]
+        [CustomAuthenticationFilter]
+        public string DeleteCartItem(string itemId)
+        {
+            try
+            {
+                var claimsItenity = this.User.Identity as ClaimsIdentity;
+                var userID = User.Identity.Name;
+                int UserId = Int32.Parse(userID);
+                using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("sp_deleteItemFromCart", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
+                    cmd.Parameters.AddWithValue("@itemId", itemId);
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+                return "successfuly deleted";
+            }
+            catch(Exception ex)
+            {
+                string exe = ex.ToString();
+                return exe;
+            }
+        }
     }
 }
