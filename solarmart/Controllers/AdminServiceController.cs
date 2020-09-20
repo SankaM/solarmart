@@ -16,35 +16,41 @@ namespace SolarMart.Controllers
 {
     public class AdminServiceController : ApiController
     {
-
-        public string Post(ItemModel item)
+        public string PostItem(ItemModel item)
         {
             try
             {
-                using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
-                {
-                    SqlCommand cmd = new SqlCommand("spInsertProduct", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ProductId", item.ItemId);
-                    cmd.Parameters.AddWithValue("@ItemName", item.ItemName);
-                    cmd.Parameters.AddWithValue("@Bprice", item.BuyPrice);
-                    cmd.Parameters.AddWithValue("@Sprice", item.SellPrice);
-                    cmd.Parameters.AddWithValue("@CId", item.CategoryId);
-                    cmd.Parameters.AddWithValue("@Idetails", item.ItemDetails);
-                    cmd.Parameters.AddWithValue("@proBrand", item.ProBrand);
-                    cmd.Parameters.AddWithValue("@proModel", item.ProModel);
-                    cmd.Parameters.AddWithValue("@proColor", item.ProColor);
-                    cmd.Parameters.AddWithValue("@feature1", item.feature1);
-                    cmd.Parameters.AddWithValue("@feature2", item.feature2);
-                    cmd.Parameters.AddWithValue("@feature3", item.feature3);
-                    cmd.Parameters.AddWithValue("@feature4", item.feature4);
-                    cmd.Parameters.AddWithValue("@feature5", item.feature5);
-                    cmd.Parameters.AddWithValue("@feature6", item.feature6);
-                    cmd.Parameters.AddWithValue("@ProDiscrit", item.ProDiscrit);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                }
+                Connections connection = new Connections();
+                connection.Connection();
+                SqlCommand cmd = new SqlCommand("spInsertProduct", connection.conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ProductId", item.ItemId);
+                cmd.Parameters.AddWithValue("@ItemName", item.ItemName);
+                cmd.Parameters.AddWithValue("@Bprice", item.BuyPrice);
+                cmd.Parameters.AddWithValue("@Sprice", item.SellPrice);
+                cmd.Parameters.AddWithValue("@profit", item.Profit);
+                cmd.Parameters.AddWithValue("@act_SelPrice", item.ActSelPrice);
+                cmd.Parameters.AddWithValue("@CId", item.CategoryId);
+                cmd.Parameters.AddWithValue("@subCatId", item.SubCategoryId);
+                cmd.Parameters.AddWithValue("@proBrand", item.ProBrand);
+                cmd.Parameters.AddWithValue("@proModel", item.ProModel);
+                cmd.Parameters.AddWithValue("@proColor", item.ProColor);
+                cmd.Parameters.AddWithValue("@ent_date", DateTime.Now);
+                cmd.Parameters.AddWithValue("@prd_Qty", item.Prd_Qty);
+                cmd.Parameters.AddWithValue("@discount", item.Discount);
+                cmd.Parameters.AddWithValue("@NOOfView", 0);
+                cmd.Parameters.AddWithValue("@NoOfBuy", 0);
+                cmd.Parameters.AddWithValue("@activeStates", true);
+                cmd.Parameters.AddWithValue("@feature1", item.feature1);
+                cmd.Parameters.AddWithValue("@feature2", item.feature2);
+                cmd.Parameters.AddWithValue("@feature3", item.feature3);
+                cmd.Parameters.AddWithValue("@feature4", item.feature4);
+                cmd.Parameters.AddWithValue("@feature5", item.feature5);
+                cmd.Parameters.AddWithValue("@feature6", item.feature6);
+                cmd.Parameters.AddWithValue("@ProDiscrit", item.ProDiscrit);
+                connection.conn.Open();
+                cmd.ExecuteNonQuery();
+                connection.conn.Close();
                 return "Successfully added";
             }
             catch (Exception ex)
@@ -336,30 +342,32 @@ namespace SolarMart.Controllers
         {
             try
             {
-                using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
-                {
-                    SqlCommand cmd = new SqlCommand("sp_UpdateProduct", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@itemId", item.ItemId);
-                    cmd.Parameters.AddWithValue("@ItemName", item.ItemName);
-                    cmd.Parameters.AddWithValue("@Bprice", item.BuyPrice);
-                    cmd.Parameters.AddWithValue("@Sprice", item.SellPrice);
-                    cmd.Parameters.AddWithValue("@CId", item.CategoryId);
-                    cmd.Parameters.AddWithValue("@Idetails", item.ItemDetails);
-                    cmd.Parameters.AddWithValue("@proBarnd", item.ProBrand);
-                    cmd.Parameters.AddWithValue("@proModel", item.ProModel);
-                    cmd.Parameters.AddWithValue("@proColor", item.ProColor);
-                    cmd.Parameters.AddWithValue("@featureOne", item.feature1);
-                    cmd.Parameters.AddWithValue("@featureTwo", item.feature2);
-                    cmd.Parameters.AddWithValue("@featureThree", item.feature3);
-                    cmd.Parameters.AddWithValue("@featureFore", item.feature4);
-                    cmd.Parameters.AddWithValue("@featureFive", item.feature5);
-                    cmd.Parameters.AddWithValue("@featureSix", item.feature6);
-                    cmd.Parameters.AddWithValue("@ProDiscription", item.ProDiscrit);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                }
+                Connections connection = new Connections();
+                connection.Connection();
+                SqlCommand cmd = new SqlCommand("sp_UpdateProduct", connection.conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@itemId", item.ItemId);
+                cmd.Parameters.AddWithValue("@ItemName", item.ItemName);
+                cmd.Parameters.AddWithValue("@Bprice", item.BuyPrice);
+                cmd.Parameters.AddWithValue("@Sprice", item.SellPrice);
+                cmd.Parameters.AddWithValue("@profit", item.Profit);
+                cmd.Parameters.AddWithValue("@act_SelPrice", item.ActSelPrice);
+                cmd.Parameters.AddWithValue("@CId", item.CategoryId);
+                cmd.Parameters.AddWithValue("@proBarnd", item.ProBrand);
+                cmd.Parameters.AddWithValue("@proModel", item.ProModel);
+                cmd.Parameters.AddWithValue("@proColor", item.ProColor);
+                cmd.Parameters.AddWithValue("@featureOne", item.feature1);
+                cmd.Parameters.AddWithValue("@featureTwo", item.feature2);
+                cmd.Parameters.AddWithValue("@featureThree", item.feature3);
+                cmd.Parameters.AddWithValue("@featureFore", item.feature4);
+                cmd.Parameters.AddWithValue("@featureFive", item.feature5);
+                cmd.Parameters.AddWithValue("@featureSix", item.feature6);
+                cmd.Parameters.AddWithValue("@ProDiscription", item.ProDiscrit);
+                cmd.Parameters.AddWithValue("@prd_Qty", item.Prd_Qty);
+                cmd.Parameters.AddWithValue("@discount", item.Discount);
+                connection.conn.Open();
+                cmd.ExecuteNonQuery();
+                connection.conn.Close();
                 return "Successfully Updated";
             }
             catch (Exception ex)

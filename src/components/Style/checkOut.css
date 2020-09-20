@@ -1,0 +1,78 @@
+.chekMinContaine{
+    width: 75%;
+    margin: 20px auto;
+    background-color: #ffffff;
+}
+.rewHader{
+    text-align: center;
+    font-family: math;
+    margin: 15px 0;
+}
+.rewItemImg{
+    width: 35px;
+    height: 40px;
+}
+.bilFoRo{
+    margin: 10px 5px;
+}
+.cardEleWrap{
+    border: 1px solid rgb(128, 123, 123);
+    border-radius: 5px;
+    padding: 15.4px 12px;
+    margin: 0 10px 10px 10px;
+}
+.shpAddress{
+    border: solid 1px rgb(190, 15, 15);
+    border-radius: 10px;
+    padding: 0px 10px;
+}
+.shpAdrrHader{
+    font-size: 15px;
+    color: red;
+    font-weight: 600;
+}
+.shadrr{
+    font-size: 12px;
+    color: rgb(2, 2, 97);
+    display: block;
+}
+.shadrrN{
+    font-size: 12px;
+    color: rgb(2, 2, 97);
+}
+.tprice{
+    font-size: 25px;
+    font-weight: 700;
+    color: rgb(247, 17, 17);
+}
+.itemList{
+    margin: 5px 10px;
+}
+.Price{
+    background-color: rgb(183, 199, 183);
+    padding: 10px 10px;
+}
+.ritemWraper{
+    margin: 10px 5px;
+}
+#buttonText{
+    font-size: 25px;
+    font-weight: 700;
+}
+.cardError{
+    color: red;
+}
+.btnWraper{
+    padding: 5px 10px;
+}
+.cardImgWrap{
+    text-align: center;
+}
+.cardImg{
+    width: 100px;
+    margin: 5px auto;
+}
+.shipToHader{
+    text-align: center;
+    color: red;
+}

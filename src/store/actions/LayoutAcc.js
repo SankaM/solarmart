@@ -87,7 +87,6 @@ export const updateCurrentUser =(name)=>{
 export const getCurrentUserName=()=>{
   return (dispatch)=>{
     const currUserToken = getUserToken();
-    console.log("uuu"+currUserToken)
     axios.get(Url+"/Account/CurrentUsername",{
       headers:{
         'Authorization':`Beares ${currUserToken}`

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Layout from "../components/Layout/Layout";
 import Slider from "../components/ImageSlider/ImageSlider";
-import VSec from "../components/VideoSec/BuySec";
+import BuySec from "../components/VideoSec/BuySec";
 import ProductDetails from "../components/Pdetails/Pdetails";
 import Rproduct from "../containers/reletedProduct";
 import ItemStyle from "../components/Style/ItemPage.css";
@@ -12,20 +12,23 @@ class Item extends Component {
     this.state = {
       product: [],
       Images: [],
+      mImg:""
     };
   }
-  componentDidMount() {
+  componentWillMount(){
     this.getProductForItem();
   }
-
   getProductForItem() {
     const { id } = this.props.match.params;
     fetch("http://localhost:56482/api/Product/Product/" + id)
       .then((res) => res.json())
       .then((res) => {
+        console.log(res.Table);
+        const mImg = res.Table1.findIndex(img=>img.IsMain ===true);
         this.setState({
           product: res.Table,
           Images: res.Table1,
+          mImg:res.Table1[mImg].ImgName
         });
       });
   }
@@ -48,7 +51,7 @@ class Item extends Component {
           <div className="col-6">
             {Images ? <Slider ImgList={Images} /> : null}
           </div>
-          <div className="col-6">{product && <VSec product={product} />}</div>
+          <div className="col-6">{product && <BuySec product={product} MImg={this.state.mImg}/>}</div>
         </div>
         {product ? (
           <ProductDetails proDetails={product.ProDiscription} />

@@ -183,7 +183,6 @@ C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Microsoft.IdentityModel.
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Microsoft.IdentityModel.Logging.xml
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Microsoft.IdentityModel.Tokens.xml
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\System.IdentityModel.Tokens.Jwt.xml
-C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\obj\Debug\SolarMart.csprojAssemblyReference.cache
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Microsoft.Win32.Primitives.dll
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\netstandard.dll
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\System.AppContext.dll
@@ -289,3 +288,4 @@ C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Stripe.net.pdb
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\Stripe.net.xml
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\bin\System.Threading.Tasks.Extensions.xml
+C:\Users\ASUS\Desktop\SolarMart\solarmart\SolarMart\obj\Debug\SolarMart.csprojAssemblyReference.cache

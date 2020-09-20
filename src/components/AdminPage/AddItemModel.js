@@ -4,6 +4,8 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import MStyle from "../Style/modelStyle.css";
 import { v4 as uuidv4 } from "uuid";
+import { Url } from "../../Helpers/Jwt";
+import axios from 'axios';
 
 class AddItemModel extends Component {
   constructor(props) {
@@ -15,18 +17,56 @@ class AddItemModel extends Component {
       fPrevewImagURL: null,
       selectedOImages: [],
       OpreviewImageURL: [],
+      subCat:[],
+      subCatStatus:false,
+      profit: 0,
+      newPrice: 0,
+      oPrice: 0,
+      bPrice: 0,
+      discount: 0,
     };
   }
+
+  priceHandler = (bp, sp, di) => {
+    const newPr = sp - (sp * di) / 100;
+    this.setState({
+      oPrice: sp,
+      bPrice: bp,
+      discount: di,
+      newPrice: newPr,
+      profit: newPr - bp,
+    });
+  };
 
   SnackbarClose = (event) => {
     this.setState({ SnackbarOpen: false });
   };
 
+  getSubCat=(e)=>{
+    let mCatId = e.target.value;
+    if(mCatId){
+      axios({
+        method:"GET",
+        url:Url + "/Catagory/GetSubCats?id="+ mCatId
+      }).then(res=>{
+        this.setState({
+          subCat:res.data,
+          subCatStatus:true
+        })
+      }).catch(err=>console.log(err))
+    }else{
+      this.setState({
+        subCat:[],
+        subCatStatus:false
+      })
+    }
+  }
+
   hadlerSubmit = (event) => {
     event.preventDefault();
     var ProductId = uuidv4();
     // eslint-disable-next-line no-unused-expressions
-    fetch("http://localhost:56482/api/AdminService/Post", {
+    fetch(Url + "/AdminService/PostItem", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -38,7 +78,7 @@ class AddItemModel extends Component {
         BuyPrice: event.target.BuyPrice.value,
         SellPrice: event.target.SellPrice.value,
         CategoryId: this.refs.Category.value,
-        ItemDetails: event.target.details.value,
+        SubCategoryId: this.refs.subCategory.value,
         ProModel: event.target.ProModel.value,
         ProBrand: event.target.ProBrand.value,
         ProColor: event.target.ProColor.value,
@@ -49,6 +89,10 @@ class AddItemModel extends Component {
         feature5: event.target.feature5.value,
         feature6: event.target.feature6.value,
         ProDiscrit: event.target.ProDiscrit.value,
+        Discount: event.target.discount.value,
+        Profit: event.target.profit.value,
+        ActSelPrice: event.target.n_S_price.value,
+        Prd_Qty: event.target.pQyt.value,
       }),
     })
       .then((res) => res.json())
@@ -234,17 +278,13 @@ class AddItemModel extends Component {
                       />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>Category</Form.Label>
+                      <Form.Label>Product quatity</Form.Label>
                       <Form.Control
-                        as="select"
-                        ref="Category"
+                        type="number"
+                        name="pQyt"
+                        placeholder="Enter number of product"
                         required
-                        placeholder="Item category"
-                      >
-                      {this.props.catagory.map(cato=><option key={cato.CategoryId}
-                        value={cato.CategoryId}
-                        >{cato.CategoryName}</option>)}
-                      </Form.Control>
+                      />
                     </Form.Group>
                   </Col>
                   <Col>
@@ -259,16 +299,63 @@ class AddItemModel extends Component {
                     </Form.Group>
                   </Col>
                 </Row>
+                <Row>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>Category</Form.Label>
+                      <Form.Control
+                        as="select"
+                        ref="Category"
+                        required
+                        placeholder="Item category"
+                        onChange={(e)=>this.getSubCat(e)}
+                      >
+                        <option value=''>Select Main category</option>
+                        {this.props.catagory.map((cato) => (
+                          <option key={cato.CategoryId} value={cato.CategoryId}>
+                            {cato.CategoryName}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>Sub Category</Form.Label>
+                      <Form.Control
+                        as="select"
+                        ref="subCategory"
+                        required
+                        placeholder="Item category"
+                        disabled={!this.state.subCatStatus}
+                      >
+                        <option value=''>Select sub category</option>
+                        {this.state.subCat && this.state.subCat.map((cato) => (
+                          <option key={cato.SubCatId} value={cato.SubCatId}>
+                            {cato.subCatName}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </Form.Group>
+                  </Col>
+                </Row>
               </div>
               <div>
                 <Row>
                   <Col>
                     <Form.Group>
-                      <Form.Label>Price of Buy</Form.Label>
+                      <Form.Label>Price of Buy / Production cost </Form.Label>
                       <Form.Control
-                        type="text"
+                        type="number"
                         name="BuyPrice"
                         placeholder="Price of Buy"
+                        onChange={(e) =>
+                          this.priceHandler(
+                            e.target.value,
+                            this.state.oPrice,
+                            this.state.discount
+                          )
+                        }
                       />
                     </Form.Group>
                   </Col>
@@ -276,9 +363,33 @@ class AddItemModel extends Component {
                     <Form.Group>
                       <Form.Label>Price of Sell</Form.Label>
                       <Form.Control
-                        type="text"
+                        type="number"
                         name="SellPrice"
                         placeholder="Price of Sell"
+                        onChange={(e) =>
+                          this.priceHandler(
+                            this.state.bPrice,
+                            e.target.value,
+                            this.state.discount
+                          )
+                        }
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>Discount (%)(optional)</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="discount"
+                        placeholder="Discount"
+                        onChange={(e) =>
+                          this.priceHandler(
+                            this.state.bPrice,
+                            this.state.oPrice,
+                            e.target.value
+                          )
+                        }
                       />
                     </Form.Group>
                   </Col>
@@ -288,13 +399,27 @@ class AddItemModel extends Component {
                 <Row>
                   <Col>
                     <Form.Group>
-                      <Form.Label>Details</Form.Label>
+                      <Form.Label>Profit</Form.Label>
                       <Form.Control
-                        type="text"
-                        as="textarea"
-                        rows="2"
-                        name="details"
-                        placeholder="Short Introduction about product"
+                        type="number"
+                        name="profit"
+                        //defaultValue={this.state.profit}
+                        value={this.state.profit}
+                        placeholder="Your profit"
+                        disabled
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>New Sell Price</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="n_S_price"
+                        //defaultValue={this.state.newPrice}
+                        value={this.state.newPrice}
+                        placeholder="New Sell Price"
+                        disabled
                       />
                     </Form.Group>
                   </Col>

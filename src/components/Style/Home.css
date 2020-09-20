@@ -7,3 +7,43 @@
 .CardContainer{
     flex: 80%;
 }
+/* real home css */
+/* .catoAndPrmoWrap{
+    background-color: #0f027e;
+} */
+.catoAndPrmoSec{
+    display: flex;
+    width: 90%;
+    margin: 5px auto;
+}
+.catoSec{
+    flex: 20%;
+}
+.pramoAd{
+    flex: 80%;
+    height:340px;
+}
+.adImg{
+    height: 100%;
+}
+.adImgWrap{
+    height: 340px;
+}
+.newArrContainer{
+    margin: 0 auto;
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+}
+.newArrSec{
+    background-color: rosybrown;
+    padding: 10px 0;
+}
+.newArrHead{
+    text-align: center;
+    margin: 10px 0;
+    font-size: 38px;
+    font-family: initial;
+    color: darkslategray;
+    font-weight: 700;
+}

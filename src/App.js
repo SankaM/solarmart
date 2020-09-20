@@ -5,7 +5,8 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import mainPage from "./pages/Index";
+import Home from "./pages/Home";
+import collection from "./pages/Index";
 import pageNotFound from "./pages/404";
 import item from "./pages/Item";
 import Login from "./pages/Login";
@@ -15,9 +16,8 @@ import Cart from "./pages/Cart";
 import AdminAuth from "./components/AuthenticatedComponent/adminAuth";
 import Aux from "./hoc/Wrap";
 import Snackbar from "./components/AlertSnak/Snakbar";
-import ConfmBox from "./components/AlertSnak/confmBox";
-import DelConfBox from "./components/AlertSnak/delConfBox";
 import Checkout from "./pages/checkout";
+import Order from './pages/MyOrders';
 
 import {loadStripe} from "@stripe/stripe-js";
 import {Elements} from "@stripe/react-stripe-js";
@@ -29,25 +29,25 @@ class App extends Component {
     return (
       <Aux>
         <Snackbar />
-        <ConfmBox/>
-        <DelConfBox/>
         <Router>
           <Switch>
-            <Route exact path="/" component={mainPage} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/collection" component={collection} />
             <Route exact path="/404" component={pageNotFound} />
             <Route exact path="/Item/:id" component={item} />
             <Route exact path="/Login" component={Login} />
             <Route exact path="/wishList" component={WishList} />
             <Route exact path="/Cart" component={Cart} />
+            <Route exact path="/MyOrders" component={Order} />
             <Route exact path="/checkout">
-                <Elements stripe={stripePromise}>
-                    <Checkout/>
-                </Elements>
+              <Elements stripe={stripePromise}>
+                  <Checkout/>
+              </Elements>
             </Route>
-            <Redirect to="/404" />
             <AdminAuth>
               <Route exact path="/Admin" component={Admin} />
             </AdminAuth>
+            <Redirect to="/404" />
           </Switch>
         </Router>
       </Aux>

@@ -1,8 +1,29 @@
 import React from "react";
 import Aux from "../../hoc/Wrap";
 import VideoS from "../Style/VideoSec.css";
+import Button from '@material-ui/core/Button';
+import {Link} from 'react-router-dom';
+import {addItemToCart} from '../../store/actions/indexAcc';
+
+import {useSelector,useDispatch} from "react-redux"
 
 const BuySec = (props) => {
+
+  const IsuserExits = useSelector((state)=>state.lor.userLogin);
+  const dispatch = useDispatch() 
+  const checkOut=()=>{
+    const order=[{
+      Img: props.MImg,
+      brand: props.product.ProBrand,
+      id: props.product.ProId,
+      model: props.product.ProModel,
+      price: props.product.SellPrice,
+      quentity: 1,
+    }]
+    const orderTotal = props.product.SellPrice + 219;
+    localStorage.setItem("orderDetails",JSON.stringify(order));
+    localStorage.setItem("orderTotal",orderTotal);
+  }
   return (
     <Aux>
       <div className={VideoS.vContainer}>
@@ -37,14 +58,10 @@ const BuySec = (props) => {
           </div> */}
           <diV className="row mt-2">
             <div className={VideoS.buySecBtn} >
-              <a id={VideoS.btnAddChart} href="#section">
-                Add to Chart
-              </a>
+              <Button variant="outlined" color="primary" onClick={()=>dispatch(addItemToCart(IsuserExits,props.product.ProId))}>Add to cart</Button>
             </div>
             <div className={VideoS.buySecBtn}>
-              <a id={VideoS.btnBuy} href="#section">
-                Buy Now
-              </a>
+              <Button component={Link} to="/checkout" onClick={()=>checkOut()} variant="outlined" color="secondary">Buy it Now</Button>
             </div>
           </diV>
         </div>

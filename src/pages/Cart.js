@@ -10,8 +10,11 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import NativeSelect from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from '@material-ui/core/Button';
+import DelConfBox from "../components/AlertSnak/delConfBox";
+import ConfmBox from "../components/AlertSnak/confmBox";
 import * as cartActions from '../store/actions/indexAcc';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 
 class Cart extends Component {
@@ -38,7 +41,6 @@ class Cart extends Component {
   updateSummery = () => {
     let oders = [...this.state.order];
     let calsubtotal = 0;
-    console.log(oders.length);
     oders.forEach((order) => {
       calsubtotal = calsubtotal + order.price * order.quentity;
     });
@@ -49,14 +51,19 @@ class Cart extends Component {
     });
   };
   
-  addItemToSummary = (e, price, ItemId) => {
+  confirmOrder=()=>{
+    localStorage.setItem("orderDetails",JSON.stringify(this.state.order));
+    localStorage.setItem("orderTotal",this.state.total);
+  }
+
+  addItemToSummary = (e, price, ItemId,ImgName,brand,model) => {
     let order = [...this.state.order];
     let oquatity = [...this.state.itemQuentity];
     if (oquatity.some((data) => data.id === ItemId)) {
       let index = oquatity.findIndex((data) => data.id === ItemId);
       let noOfItem = oquatity[index].quentity;
       if (e.target.checked) {
-        order.push({ id: ItemId, price: price, quentity: noOfItem });
+        order.push({ id: ItemId, price: price, Img:ImgName ,brand:brand,model:model, quentity: noOfItem });
         this.setState({
           order: order,
         });
@@ -72,7 +79,7 @@ class Cart extends Component {
       }
     } else {
       if (e.target.checked) {
-        order.push({ id: ItemId, price: price, quentity: 1 });
+        order.push({ id: ItemId, price: price,Img:ImgName ,brand:brand,model:model, quentity: 1 });
         this.setState({
           order: order,
         });
@@ -88,6 +95,17 @@ class Cart extends Component {
       }
     }
   };
+  updatePriseWhenDelete=(ItemId)=>{
+    let order = [...this.state.order];
+    order.forEach((item, index) => {
+      if (item.id === ItemId) {
+        order.splice(index, 1);
+      }
+    });
+    this.setState({
+      order: order,
+    });
+  }
   quantityHandlaer = (e, Id) => {
     let oQuetity = [...this.state.itemQuentity];
     if (oQuetity.some((data) => data.id === Id)) {
@@ -138,7 +156,7 @@ class Cart extends Component {
                     <Checkbox
                       inputProps={{ "aria-label": "uncontrolled-checkbox" }}
                       onChange={(e) =>
-                        this.addItemToSummary(e, Item.SellPrice, Item.ProductId)
+                        this.addItemToSummary(e, Item.SellPrice, Item.ProductId,Item.ImgName,Item.ProBrand,Item.ProModel)
                       }
                     />
                   </td>
@@ -242,15 +260,19 @@ class Cart extends Component {
                     variant="contained"
                     color="secondary"
                     className={CartS.summaryBtn}
+                    component={Link}
+                    to="checkout"
+                    onClick={()=>this.confirmOrder()}
                   >
                     PROCEED TO CHECKOUT
                   </Button>
-                  <a href="/checkout" className="btn btn-primary">PROCEED TO CHECKOUT</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <DelConfBox priceCal={this.updatePriseWhenDelete}/>
+        <ConfmBox priceCal={this.updatePriseWhenDelete}/>
       </Layout>
     );
   }
@@ -266,7 +288,7 @@ const mapDispatchToProps=(dispatch)=>{
   return{
     openconfm : (ItemId)=>dispatch(cartActions.alertDiologOpen(ItemId)),
     delConfBox : (ItemId)=>dispatch(cartActions.delConfBOpen(ItemId)),
-    getCartItems:()=>dispatch(cartActions.getCarttems())
+    getCartItems:()=>dispatch(cartActions.getCarttems()),
   }
 }
 

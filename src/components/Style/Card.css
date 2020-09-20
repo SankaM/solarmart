@@ -68,7 +68,7 @@
   width: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   position: absolute;
-  bottom: 0;
+  top: 0;
 }
 .cardBtn {
   visibility: hidden;

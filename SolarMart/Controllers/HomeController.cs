@@ -17,12 +17,9 @@ namespace SolarMart.Controllers
 {
     public class HomeController : ApiController
     {
-        //[CustomAuthenticationFilter]
         public HttpResponseMessage GetForCardAll()
         {
             DataTable tb = new DataTable();
-            //var claimsIdenetity = this.User.Identity as ClaimsIdentity;
-            //var userEmail = User.Identity.Name;
             using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
             {
                 conn.Open();
@@ -94,6 +91,30 @@ namespace SolarMart.Controllers
             {
                 string exep = ex.ToString();
                 return exep;
+            }
+        }
+
+
+        [HttpGet]
+        public HttpResponseMessage getNewArrivelItem()
+        {
+            try
+            {
+                Connections connections = new Connections();
+                connections.Connection();
+                connections.conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_getNewArrivelItem ", connections.conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                DataTable tb = new DataTable();
+                SqlDataReader reder = cmd.ExecuteReader();
+                tb.Load(reder);
+                connections.conn.Close();
+                return Request.CreateResponse(HttpStatusCode.OK, tb);
+            }
+            catch(Exception ex)
+            {
+                string exe = ex.ToString();
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, exe);
             }
         }
     }

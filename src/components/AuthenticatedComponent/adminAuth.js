@@ -15,7 +15,7 @@ class adminAuth extends Component {
             this.props.history.push('/Login');
         }
         this.setState({
-            user:jwt
+            admin:jwt
         })
     }
     render() {

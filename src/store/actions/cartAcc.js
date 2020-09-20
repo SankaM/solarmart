@@ -10,6 +10,26 @@ export const updateCartItem=(cartItem)=>{
     }
 }
 
+export const updateConfiredItem =(order)=>{
+  return{
+    type:actionType.UPDATE_CONFIRMED_ORDER,
+    order
+  }
+}
+
+export const setIniUserInfo =(info)=>{
+  return{
+    type:actionType.SETUSER_INFO,
+    info
+  }
+}
+export const changeShippInfo=(newInfo)=>{
+  return{
+    type:actionType.CHANGE_SHIPDETAILS,
+    newInfo
+  }
+}
+
 export const  getCarttems = () => {
     return (dispatch)=>{
         const user = getUserToken();

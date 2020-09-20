@@ -1,0 +1,52 @@
+.OrMHed{
+    font-family: serif;
+    margin-bottom: 30px;
+}
+.OrderContiner{
+    background-color: #ffffff;
+    width: 75%;
+    margin: 10px auto;
+    padding: 10px 15px;
+}
+.SubHed{
+    flex: 33.3%;
+}
+.orImg{
+    width: 60px;
+    height: 65px;
+}
+.addWrap{
+    background-color: antiquewhite;
+    padding: 5px 10px;
+}
+.center{
+    text-align: center;
+}
+.addHader{
+    color: seagreen;
+    font-size: 16px;
+    margin-top: 8px;
+}
+.addspn{
+    font-size: 14px;
+}
+.dthed{
+    color: rgb(13, 187, 88);
+}
+.dt{
+    color: rgb(175, 172, 172);
+    font-size: 12px;
+    margin:  0 10px;
+}
+.amount{
+    color: gray;
+    background-color: honeydew;
+    padding: 4px 6px;
+}
+.suc{
+    background-color: rgb(97, 219, 97);
+    padding: 8px 10px;
+    border-radius: 5px;
+    color: rgb(88, 29, 29);
+    font-weight: 700;
+}

@@ -9,6 +9,7 @@ class confmBox extends Component {
   itemMoveHandler=()=>{
     this.props.addItemToWishList(true,this.props.movedItemId);
     this.props.deleteItemFromCart(this.props.movedItemId);
+    this.props.priceCal(this.props.movedItemId);
   }
 
   render() {

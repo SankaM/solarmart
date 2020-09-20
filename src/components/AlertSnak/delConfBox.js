@@ -6,8 +6,12 @@ import * as  AlertAction from '../../store/actions/indexAcc';
 import Button from '@material-ui/core/Button';
 
 class delConfBox extends Component {
+  // constructor(props){
+  //   super(props);
+  // }
   itemDeleteHandler=()=>{
     this.props.deleteItemFromCart(this.props.deleteCrtId);
+    this.props.priceCal(this.props.deleteCrtId);
   }
 
   render() {

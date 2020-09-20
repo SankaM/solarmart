@@ -11,11 +11,15 @@ namespace SolarMart.Models
 
         public string ItemName { get; set; }
 
-        public int BuyPrice { get; set; }
+        public float BuyPrice { get; set; }
 
-        public int SellPrice { get; set; }
+        public float SellPrice { get; set; }
+
+        public float ActSelPrice { get; set; }
 
         public int CategoryId { get; set; }
+
+        public int SubCategoryId { get; set; }
 
         public string ItemDetails { get; set; }
 
@@ -24,6 +28,20 @@ namespace SolarMart.Models
         public string ProModel { get; set; }
 
         public string ProColor { get; set; }
+
+        public int Prd_Qty { get; set; }
+
+        public DateTime EnterdDate { get; set; }
+
+        public float Discount { get; set; }
+
+        public float Profit { get; set; }
+
+        public int NoOfVeiws { get; set; }
+
+        public int NoOfBuys { get; set; }
+
+        public bool ActiveStatus { get; set; }
 
         public string feature1 { get; set; }
 

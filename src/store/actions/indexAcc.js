@@ -24,5 +24,8 @@ export{
     delConfBClose
 }from "./snakBarAcc";
 export{
-    getCarttems
+    getCarttems,
+    updateConfiredItem,
+    setIniUserInfo,
+    changeShippInfo
 }from "./cartAcc";

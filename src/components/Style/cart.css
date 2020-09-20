@@ -29,9 +29,13 @@
     margin: 0 auto !important;
     width: 85%;
 }
+.summaryBtn:hover{
+    text-decoration: none;
+    color: #ffffff !important; 
+}
 .summarySpan{
     font-weight: 700;
-    padding: 5px 15px;
+    padding: 5px 3px;
     color: rgb(121, 117, 117);
 }
 .tsummarySpan{

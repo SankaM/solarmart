@@ -3,19 +3,49 @@ import { Modal, Button, Row, Col, Form } from "react-bootstrap";
 import MStyle from "../Style/modelStyle.css";
 
 class EditItemModel extends Component {
-  state = {
-    //FeImgUrl: null,
-    mainImgUrl: null,
-    SelectedFeImg: null,
-    OthImgUrl: [],
-    SelectedOtherImg: [],
-    detailsForDeleteImg: [],
-    newPhoto: 0,
+  constructor(props) {
+    super(props);
+    this.state = {
+      //FeImgUrl: null,
+      mainImgUrl: null,
+      SelectedFeImg: null,
+      OthImgUrl: [],
+      SelectedOtherImg: [],
+      detailsForDeleteImg: [],
+      newPhoto: 0,
+      profit: 0,
+      newPrice: 0,
+      oPrice: 0,
+      bPrice: 0,
+      discount: 0,
+    };
+  }
+
+  priceHandler = (bp, sp, di) => {
+    const newPr = sp - (sp * di) / 100;
+    this.setState({
+      oPrice: sp,
+      bPrice: bp,
+      discount: di,
+      newPrice: newPr,
+      profit: newPr - bp,
+    });
   };
+
   componentWillReceiveProps(nextProps) {
     if (typeof nextProps.productimg !== "undefined") {
       this.FImgHandler(nextProps.productimg.Table[0].ImgName);
       this.OImgHandler(nextProps);
+    }
+    console.log("1");
+    if (nextProps.product) {
+      this.setState({
+        profit: nextProps.product.proft,
+        newPrice: nextProps.product.Act_SellPrice,
+        oPrice: nextProps.product.SellPrice,
+        bPrice: nextProps.product.BuyPrice,
+        discount: nextProps.product.discount,
+      });
     }
   }
 
@@ -34,7 +64,6 @@ class EditItemModel extends Component {
         BuyPrice: event.target.BuyPrice.value,
         SellPrice: event.target.SellPrice.value,
         CategoryId: event.target.Category.value,
-        ItemDetails: event.target.details.value,
         ProBrand: event.target.ProBrand.value,
         ProModel: event.target.ProModel.value,
         ProColor: event.target.ProColor.value,
@@ -45,6 +74,10 @@ class EditItemModel extends Component {
         feature5: event.target.feature5.value,
         feature6: event.target.feature6.value,
         ProDiscrit: event.target.ProDiscrit.value,
+        Discount: event.target.Discount.value,
+        Profit: event.target.profit.value,
+        ActSelPrice: event.target.n_S_price.value,
+        Prd_Qty: event.target.pQyt.value,
       }),
     })
       .then((res) => res.json())
@@ -58,8 +91,10 @@ class EditItemModel extends Component {
       );
 
     this.state.SelectedFeImg !== null && this.UploadNewMainImage();
-    this.state.SelectedOtherImg.length !== 0 && this.UploadNewOtherImages(this.props.product.ProductId);
-    this.state.detailsForDeleteImg.length !== 0 && this.DeleteEditedImages(this.state.detailsForDeleteImg);
+    this.state.SelectedOtherImg.length !== 0 &&
+      this.UploadNewOtherImages(this.props.product.ProductId);
+    this.state.detailsForDeleteImg.length !== 0 &&
+      this.DeleteEditedImages(this.state.detailsForDeleteImg);
   };
 
   // main Image Functions
@@ -119,20 +154,20 @@ class EditItemModel extends Component {
       .then((response) => console.log(response));
   };
 
-  DeleteEditedImages=(list)=>{
+  DeleteEditedImages = (list) => {
     fetch("http://localhost:56482/api/AdminService/DeleteEditedImages", {
       method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body:JSON.stringify({
-        List:list
-      })
+      body: JSON.stringify({
+        List: list,
+      }),
     })
       .then((res) => res.json())
       .then((response) => console.log(response));
-  }
+  };
 
   OImgHandler = (nextProps) => {
     var oUrlTemp = [];
@@ -291,11 +326,11 @@ class EditItemModel extends Component {
                   />
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label>Category</Form.Label>
+                  <Form.Label>Product quatity</Form.Label>
                   <Form.Control
-                    type="text"
-                    name="Category"
-                    defaultValue={this.props.product.CategoryId}
+                    type="number"
+                    name="pQyt"
+                    defaultValue={this.props.product.prod_qty}
                   />
                 </Form.Group>
               </Col>
@@ -310,17 +345,46 @@ class EditItemModel extends Component {
                 </Form.Group>
               </Col>
             </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <Form.Label>Category</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="Category"
+                    defaultValue={this.props.product.CategoryId}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <Form.Label>Sub Category</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="Category"
+                    defaultValue={this.props.product.CategoryId}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
           </div>
           <div>
             <Row>
               <Col>
                 <Form.Group>
-                  <Form.Label>Price of Buy</Form.Label>
+                  <Form.Label>Price of Buy / Production cost</Form.Label>
                   <Form.Control
                     type="text"
                     name="BuyPrice"
                     defaultValue={this.props.product.BuyPrice}
                     placeholder="Price of Buy"
+                    onChange={(e) =>
+                      this.priceHandler(
+                        e.target.value,
+                        this.state.oPrice,
+                        this.state.discount
+                      )
+                    }
                   />
                 </Form.Group>
               </Col>
@@ -331,6 +395,30 @@ class EditItemModel extends Component {
                     type="text"
                     name="SellPrice"
                     defaultValue={this.props.product.SellPrice}
+                    onChange={(e) =>
+                      this.priceHandler(
+                        this.state.bPrice,
+                        e.target.value,
+                        this.state.discount
+                      )
+                    }
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <Form.Label>Discount (%)(optional)</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="Discount"
+                    defaultValue={this.props.product.discount}
+                    onChange={(e) =>
+                      this.priceHandler(
+                        this.state.bPrice,
+                        this.state.oPrice,
+                        e.target.value
+                      )
+                    }
                   />
                 </Form.Group>
               </Col>
@@ -340,13 +428,27 @@ class EditItemModel extends Component {
             <Row>
               <Col>
                 <Form.Group>
-                  <Form.Label>Details</Form.Label>
+                  <Form.Label>Profit</Form.Label>
                   <Form.Control
-                    type="text"
-                    as="textarea"
-                    rows="2"
-                    name="details"
-                    defaultValue={this.props.product.ProIntroduction}
+                    type="number"
+                    name="profit"
+                    defaultValue={this.props.product.proft}
+                    value={this.state.profit}
+                    placeholder="Your profit"
+                    disabled
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <Form.Label>New Sell Price</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="n_S_price"
+                    defaultValue={this.props.product.Act_SellPrice}
+                    value={this.state.newPrice}
+                    placeholder="New Sell Price"
+                    disabled
                   />
                 </Form.Group>
               </Col>
