@@ -6,7 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import Home from "./pages/Home";
-import collection from "./pages/Index";
+import collection from "./pages/Collections";
 import pageNotFound from "./pages/404";
 import item from "./pages/Item";
 import Login from "./pages/Login";
@@ -32,7 +32,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/collection" component={collection} />
+            <Route exact path="/collection/:cid" component={collection} />
             <Route exact path="/404" component={pageNotFound} />
             <Route exact path="/Item/:id" component={item} />
             <Route exact path="/Login" component={Login} />

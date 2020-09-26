@@ -1,4 +1,4 @@
-// layout action
+// layout actions
 export const LOGMODOPEN ='LOGMODOPEN';
 export const LOGMODCLOSE ='LOGMODCLOSE';
 export const REGUSEROPEN ='REGUSEROPEN';
@@ -11,7 +11,7 @@ export const USER_START_LOGIN ='USER_START_LOGIN';
 export const UPDATE_CURRENTUSER ='UPDATE_CURRENTUSER'
 
 
-// card action
+// card actions
 export const  UPDATE_WISHLIST = 'UPDATE_WISHLIST';
 export const  UPDATE_CART = 'UPDATE_CART';
 export const GET_NO_OF_WISHITEM ='GET_NO_OF_WISHITEM';
@@ -24,10 +24,13 @@ export const DELETE_ITEMFROM_CART = 'DELETE_ITEMFROM_CART';
 export const DEL_CONF_B_OPEN = 'DEL_CONF_B_OPEN';
 export const DEL_CONF_B_CLOSE = 'DEL_CONF_B_CLOSE';
 
-// Cart action
+// Cart actions
 export const UPDATE_CARTITEM = 'UPDATE_CARTITEM';
 export const UPDATE_CONFIRMED_ORDER = 'UPDATE_CONFIRMED_ORDER';
 export const SETUSER_INFO= 'SETUSER_INFO';
 export const CHANGE_SHIPDETAILS='CHANGE_SHIPDETAILS';
+
+// Collection Actions
+export const GET_CATRIZE_PROD = 'GET_CATRIZE_PROD';
 
 

@@ -28,8 +28,8 @@ class NewArriCard extends Component {
   render() {
     return (
       <Aux>
-        <div className={Card.cardWraper}>
-          <div className={Card.CImgSec}>
+        <div className={Card.newA_cardWraper} style={{width:this.props.cwidth,height:this.props.cheight}}>
+          <div className={Card.newA_CImgSec} style={{width:this.props.iwidth,height:this.props.iheight}}>
             <img
               src={"http://localhost:56482/Images/" + this.props.proImg}
               alt="kk"
@@ -55,18 +55,18 @@ class NewArriCard extends Component {
             </div>
           </div>
           <div className={Card.priceWraper}>
-            <Link to={["/Item/", this.props.proId].join("")}>
+            <Link to={["/Item/", this.props.proId].join("")} onClick={()=>this.props.updateViews(this.props.proId)}>
               <span className={Card.price}>Rs:{this.props.proPrice}</span>
             </Link>
           </div>
           <div className={Card.cardMidle}>
-            <Link to={["/Item/", this.props.proId].join("")}>
+            <Link to={["/Item/", this.props.proId].join("")} onClick={()=>this.props.updateViews(this.props.proId)}>
               <span className={Card.Model}>{this.props.proModel}</span>
             </Link>
           </div>
           <div className={Card.ItemNameWraper}>
-            <Link to={["/Item/", this.props.proId].join("")}>
-              <span className={Card.ItemName}>
+            <Link to={["/Item/", this.props.proId].join("")} onClick={()=>this.props.updateViews(this.props.proId)}>
+              <span className={Card.newAr_ItemName}>
                 {[this.props.proBrand, this.props.proName].join(" ")}
               </span>
             </Link>
@@ -84,7 +84,8 @@ const mapStateToProps=(state)=>{
 const mapDispatchToProps=(dispatch)=>{
 return{
   addItemToWishList : (IsUserExist,id)=>dispatch(cardActions.addItemToWishList(IsUserExist,id)),
-  addItemToCart : (IsUserExist,id)=>dispatch(cardActions.addItemToCart(IsUserExist,id))
+  addItemToCart : (IsUserExist,id)=>dispatch(cardActions.addItemToCart(IsUserExist,id)),
+  updateViews :(id)=>dispatch(cardActions.updateViews(id))
 }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(NewArriCard);

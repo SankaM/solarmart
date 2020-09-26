@@ -5,7 +5,8 @@ import BuySec from "../components/VideoSec/BuySec";
 import ProductDetails from "../components/Pdetails/Pdetails";
 import Rproduct from "../containers/reletedProduct";
 import ItemStyle from "../components/Style/ItemPage.css";
-
+import {Url} from '../Helpers/Jwt';
+//import axios from'axios';
 class Item extends Component {
   constructor(prorp) {
     super(prorp);
@@ -18,9 +19,10 @@ class Item extends Component {
   componentWillMount(){
     this.getProductForItem();
   }
+  
   getProductForItem() {
     const { id } = this.props.match.params;
-    fetch("http://localhost:56482/api/Product/Product/" + id)
+    fetch(Url+"/Product/Product/" + id)
       .then((res) => res.json())
       .then((res) => {
         console.log(res.Table);

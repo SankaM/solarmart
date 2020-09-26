@@ -104,6 +104,37 @@
     color: black;
     background-color: rgb(224, 221, 216);
 }
+/* footer sec */
+.footerSec{
+    background: linear-gradient(90deg, rgba(167,219,210,1) 0%, rgba(9,9,121,1) 73%, rgba(3,2,20,1) 100%);
+}
+.footerSubSecMid{
+    border-left:   2px solid black;
+    border-right:  2px solid black;
+    margin: 20px 0;
+}
+.footerSubSec{
+    width: 33.3%;
+    display: inline-block;
+    text-align: center;
+}
+.Logofooter{
+    width: 100px;
+    margin: 20px 0 0 0;
+}
+.footSubHead{
+    font-size: 22px;
+    font-family: monospace;
+    color: burlywood;
+}
+.footSubPara{
+    color: cadetblue;
+}
+.socialMediaLogo{
+    display: inline-block;
+    width: 40px;
+    margin: 5px 8px;
+}
 @media(max-width:375px){
     .nav_t_container{
         width:320px;

@@ -51,19 +51,14 @@ const BuySec = (props) => {
             </span>
             <span className={VideoS.pastPrice}></span>
           </div>
-          {/* <div>
-            <label>Quatity</label>
-            {"   "}
-            <input type="text" id="quatity" />
-          </div> */}
-          <diV className="row mt-2">
+          <div className="row mt-2">
             <div className={VideoS.buySecBtn} >
               <Button variant="outlined" color="primary" onClick={()=>dispatch(addItemToCart(IsuserExits,props.product.ProId))}>Add to cart</Button>
             </div>
             <div className={VideoS.buySecBtn}>
               <Button component={Link} to="/checkout" onClick={()=>checkOut()} variant="outlined" color="secondary">Buy it Now</Button>
             </div>
-          </diV>
+          </div>
         </div>
       </div>
     </Aux>

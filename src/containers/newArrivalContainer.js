@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from "react";
-import {Url,getUserToken} from "../Helpers/Jwt";
+import {Url} from "../Helpers/Jwt";
 import NewArriCard from "../components/Card/NewArriCard";
 import Aux from '../hoc/Wrap';
 import axios from 'axios';
@@ -33,6 +33,10 @@ const getNewArrCardDeta=()=>{
                 proImg={crd.ImgName}
                 proId={crd.ProductId}
                 key={crd.ProductId}
+                iwidth="188px"
+                iheight="168px"
+                cwidth ="199px"
+                cheight="270px"
               />)
         )
     }

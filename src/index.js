@@ -12,12 +12,14 @@ import LayoutRedu from './store/reducers/LayoutRedu';
 import CardRedu from './store/reducers/cardRedu';
 import SnakbarRedu from './store/reducers/snakbarRedu';
 import CartRedu from './store/reducers/cartRedu';
+import CollectionRedu from './store/reducers/collectionRedu';
 
 const rootReducer = combineReducers({
     lor:LayoutRedu,
     cr:CardRedu,
     sbr:SnakbarRedu,
-    ctr:CartRedu
+    ctr:CartRedu,
+    colr:CollectionRedu
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

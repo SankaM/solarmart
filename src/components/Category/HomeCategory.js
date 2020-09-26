@@ -16,8 +16,8 @@ const Category = (props) => {
   const useStyles = makeStyles((theme) => ({
     linWrap: {
       position: "relative",
-      '&:hover > div': {
-        display: "block"
+      "&:hover > div": {
+        display: "block",
       },
     },
     subCat: {
@@ -38,30 +38,31 @@ const Category = (props) => {
         <i className="fas fa-bars"></i> Categories
       </div>
       <div className={Nav.CsubContainer}>
-        {catagory.map((cato) => (
-          <div className={classes.linWrap} key={cato.CategoryId}>
-            <a
-              href="#/"
-              role="button"
-              className={Nav.categoryItem}
-            >
+        {catagory.map((cato) =>
+          cato.SubCat.length !== 0 ? (
+            <div className={classes.linWrap} key={cato.CategoryId}>
+              <a href="#/" role="button" className={Nav.categoryItem}>
+                {cato.CategoryName}
+              </a>
+              <div className={classes.subCat}>
+                {cato.SubCat.map((scato) => (
+                  <a
+                    href={"/collection/"+scato.SubCatId}
+                    role="button"
+                    className={Nav.categoryItem}
+                    key={scato.SubCatId}
+                  >
+                    {scato.SubCatName}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <a href="#/" role="button" className={Nav.categoryItem}>
               {cato.CategoryName}
             </a>
-            <div className={classes.subCat}>
-              {
-                cato.SubCat.map(scato=>
-                  <a
-                  href="#/"
-                  role="button"
-                  className={Nav.categoryItem}
-                  key={scato.SubCatId}
-                >
-                  {scato.SubCatName}
-                </a>)
-              }
-            </div>
-          </div>
-        ))}
+          )
+        )}
       </div>
     </div>
   );

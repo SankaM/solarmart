@@ -31,7 +31,7 @@ namespace SolarMart.Controllers
             }
         }
 
-        public HttpResponseMessage GetForCard(int id)
+        public HttpResponseMessage GetCards(int id)
         {
             DataTable tb = new DataTable();
             using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
@@ -107,6 +107,28 @@ namespace SolarMart.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 DataTable tb = new DataTable();
                 SqlDataReader reder = cmd.ExecuteReader();
+                tb.Load(reder);
+                connections.conn.Close();
+                return Request.CreateResponse(HttpStatusCode.OK, tb);
+            }
+            catch(Exception ex)
+            {
+                string exe = ex.ToString();
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, exe);
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetTrendingItem()
+        {
+            try
+            {
+                Connections connections = new Connections();
+                connections.Connection();
+                connections.conn.Open();
+                SqlCommand sqlCommand = new SqlCommand("sp_getTrendItems", connections.conn);
+                DataTable tb = new DataTable();
+                SqlDataReader reder = sqlCommand.ExecuteReader();
                 tb.Load(reder);
                 connections.conn.Close();
                 return Request.CreateResponse(HttpStatusCode.OK, tb);

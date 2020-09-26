@@ -29,3 +29,8 @@ export{
     setIniUserInfo,
     changeShippInfo
 }from "./cartAcc";
+
+export{
+    getCatRizeProduct,
+    updateViews
+} from "./collectionAcc";

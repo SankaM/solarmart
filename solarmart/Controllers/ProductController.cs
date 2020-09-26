@@ -8,12 +8,13 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using SolarMart.Models;
-using System.Web.Mvc;
+//using System.Web.Mvc;
 
 namespace SolarMart.Controllers
 {
     public class ProductController : ApiController
-    {   [System.Web.Http.HttpGet]
+    {
+        [HttpGet]
         public HttpResponseMessage Product(string id)
         {
             using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
@@ -30,5 +31,22 @@ namespace SolarMart.Controllers
             }
         }
 
+        [HttpPut]
+        public void UpdateViews(string prodId)
+        {
+            try
+            {
+                Connections connections = new Connections();
+                connections.Connection();
+                connections.conn.Open();
+                SqlCommand cmd = new SqlCommand("Update Product set NoOfViews = NoOfViews + 1 where ProductId = @pId", connections.conn);
+                cmd.Parameters.AddWithValue("@pId", prodId);
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                string exe = ex.ToString();
+            }
+        }
     }
 }
