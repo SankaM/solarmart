@@ -1,17 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Nav from "../Style/Layout.css";
 import { makeStyles } from "@material-ui/core/styles";
+import * as catoAcc from '../../store/actions/indexAcc';
+
+import {useDispatch,useSelector} from 'react-redux';
 
 const Category = (props) => {
-  const [catagory, setCatagory] = useState([]);
+  //const [catagory, setCatagory] = useState([]);
+
+  const dispatch = useDispatch();
   useEffect(() => {
-    fetch("http://localhost:56482/api/Catagory/GetCategory")
-      .then((response) => response.json())
-      .then((data) => {
-        setCatagory(data);
-        console.log(data);
-      });
-  }, []);
+    // fetch("http://localhost:56482/api/Catagory/GetCategory")
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setCatagory(data);
+    //     console.log(data);
+    //   });
+    dispatch(catoAcc.GetCategory());
+  }, [dispatch]);
+
+  const catagory = useSelector(state => state.colr.cato)
 
   const useStyles = makeStyles((theme) => ({
     linWrap: {
@@ -33,7 +41,7 @@ const Category = (props) => {
   }));
   const classes = useStyles();
   return (
-    <div className={Nav.category_container}>
+    <div style={{width:props.width,margin:props.margin}} className={Nav.category_container}>
       <div className={Nav.categoryHader}>
         <i className="fas fa-bars"></i> Categories
       </div>
@@ -41,13 +49,13 @@ const Category = (props) => {
         {catagory.map((cato) =>
           cato.SubCat.length !== 0 ? (
             <div className={classes.linWrap} key={cato.CategoryId}>
-              <a href="#/" role="button" className={Nav.categoryItem}>
+              <a href={"/collection/"+cato.CategoryId+"/"+ 0} role="button" className={Nav.categoryItem}>
                 {cato.CategoryName}
               </a>
               <div className={classes.subCat}>
                 {cato.SubCat.map((scato) => (
                   <a
-                    href={"/collection/"+scato.SubCatId}
+                    href={"/collection/"+cato.CategoryId+"/"+scato.SubCatId}
                     role="button"
                     className={Nav.categoryItem}
                     key={scato.SubCatId}
@@ -58,7 +66,7 @@ const Category = (props) => {
               </div>
             </div>
           ) : (
-            <a href="#/" role="button" className={Nav.categoryItem}>
+            <a href={"/collection/"+cato.CategoryId+"/"+ 0} role="button" className={Nav.categoryItem} key={cato.CategoryId}>
               {cato.CategoryName}
             </a>
           )

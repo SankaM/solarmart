@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-//import * as hommAccc from "../store/actions/indexAcc";
-//import { Url, getUserToken } from "../Helpers/Jwt";
 import Layout from "../components/Layout/Layout";
 import home from "../components/Style/Home.css";
 import Nav from "../components/Style/Layout.css";
-import Category from "../components/Category/HomeCategory";
+import Category from "../components/Category/Category";
 import TopAds from "../components/HomeComp/Topads";
 import NewArrivels from "../containers/newArrivalContainer";
 import TrendItems from "../containers/trendItemContainer";
@@ -21,7 +19,7 @@ class Home extends Component {
         <div className={home.catoAndPrmoWrap}>
           <div className={home.catoAndPrmoSec}>
             <div className={home.catoSec}>
-              <Category />
+              <Category width="100%" margin="0px"/>
             </div>
             <div className={home.pramoAd}>
               <TopAds />

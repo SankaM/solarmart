@@ -3,7 +3,7 @@ import Aux from "../hoc/Wrap";
 import Card from "../components/Card/card";
 import Cstyle from "../components/Style/container.css";
 import { connect } from "react-redux";
-import * as collectionAcc from "../store/actions/indexAcc";
+//import * as collectionAcc from "../store/actions/indexAcc";
 
 class cardContainer extends Component {
   // constructor(props) {
@@ -61,11 +61,16 @@ class cardContainer extends Component {
         </div>
       );
     } else {
-      cards = <div>
-        <h1>Store Empty !! We will Update store soon</h1>
-      </div>;
+      cards = (
+        <div>
+          <h1>Store Empty !! We will Update store soon</h1>
+        </div>
+      );
     }
-    return <Aux>{cards}</Aux>;
+    return (
+      <Aux>
+        {cards}
+      </Aux>);
   }
 }
 
@@ -75,9 +80,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispathToProps = (dispatch) => {
-  return {
-    getCatRizeProduct: (id) => dispatch(collectionAcc.getCatRizeProduct(id)),
-  };
-};
-export default connect(mapStateToProps, mapDispathToProps)(cardContainer);
+// const mapDispathToProps = (dispatch) => {
+//   return {
+//     getCatRizeProduct: (id) => dispatch(collectionAcc.getCatRizeProduct(id)),
+//   };
+// };
+export default connect(mapStateToProps, null)(cardContainer);

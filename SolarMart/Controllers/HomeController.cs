@@ -17,18 +17,27 @@ namespace SolarMart.Controllers
 {
     public class HomeController : ApiController
     {
-        public HttpResponseMessage GetForCardAll()
+        public HttpResponseMessage GetCat1Cards(int id)
         {
-            DataTable tb = new DataTable();
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
+            try
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_GetAllProductForHome", conn);
+                DataTable tb = new DataTable();
+                Connections connections = new Connections();
+                connections.Connection();
+                connections.conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_GetCatRize1Product", connections.conn);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@mid", id);
                 SqlDataReader dr = cmd.ExecuteReader();
                 tb.Load(dr);
                 return Request.CreateResponse(HttpStatusCode.OK, tb);
             }
+            catch(Exception ex)
+            {
+                string exe = ex.ToString();
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, exe);
+            }
+            
         }
 
         public HttpResponseMessage GetCards(int id)
@@ -44,24 +53,24 @@ namespace SolarMart.Controllers
                 tb.Load(dr);
                 return Request.CreateResponse(HttpStatusCode.OK, tb);
             }
-
+ 
         }
         
-        public HttpResponseMessage GetProBrand(int id)
-        {
-            DataTable dataTable = new DataTable();
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_getProBrand", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id", id);
-                SqlDataReader dr = cmd.ExecuteReader();
-                dataTable.Load(dr);
-                conn.Close();
-                return Request.CreateResponse(HttpStatusCode.OK, dataTable);
-            }
-        }
+        //public HttpResponseMessage GetSubCat(int id)
+        //{
+        //    DataTable dataTable = new DataTable();
+        //    Connections connections = new Connections();
+        //    connections.Connection();
+        //    connections.conn.Open();
+        //    SqlCommand cmd = new SqlCommand("sp_getProBrand", connections.conn);
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    cmd.Parameters.AddWithValue("@id", id);
+        //    SqlDataReader dr = cmd.ExecuteReader();
+        //    dataTable.Load(dr);
+        //    connections.conn.Close();
+        //    return Request.CreateResponse(HttpStatusCode.OK, dataTable);
+            
+        //}
         [HttpPost]
         public string CreateUserAccount(UserModel user)
         {

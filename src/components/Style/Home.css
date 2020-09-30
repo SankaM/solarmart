@@ -86,3 +86,23 @@
     margin: 0 40px;
     color: slategray;
 }
+.mainCatName{
+    text-align: center;
+    font-size: 20px;
+    font-family: none;
+    margin: 10px;
+    color: gray;
+}
+.subCatBtn{
+    margin: 0 10px !important;
+}
+.filterOptions{
+    margin: 10px;
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px;
+}
+.filterSpan{
+    color: gray;
+    margin-right:20px;
+}

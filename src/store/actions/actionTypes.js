@@ -32,5 +32,7 @@ export const CHANGE_SHIPDETAILS='CHANGE_SHIPDETAILS';
 
 // Collection Actions
 export const GET_CATRIZE_PROD = 'GET_CATRIZE_PROD';
+export const GETCATEGORIES ='GETCATEGORIES';
+export const SETFILTERS ='SETFILTERS';
 
 

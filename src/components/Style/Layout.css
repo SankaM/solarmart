@@ -66,10 +66,8 @@
 }
 /* category css */
 .category_container{
-    width: 90%;
     height: 340px;
     background-color: #ffffff;
-    margin: 10px;
     border-radius: 2px;
     border: 1px solid rgb(226, 224, 224);
 }

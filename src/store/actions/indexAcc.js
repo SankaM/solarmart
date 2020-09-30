@@ -31,6 +31,9 @@ export{
 }from "./cartAcc";
 
 export{
-    getCatRizeProduct,
-    updateViews
+    getCatRize2Product,
+    getCatRize1Product,
+    updateViews,
+    GetCategory,
+    setFilter
 } from "./collectionAcc";

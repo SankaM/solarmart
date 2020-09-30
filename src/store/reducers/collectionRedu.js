@@ -1,7 +1,11 @@
 import * as actionType from "../actions/actionTypes";
 
 const initialState ={
-    product:[]
+    product:[],
+    cato:[],
+    selected_Main_CatoName:"",
+    Selected_subCats:[],
+    filter_Sub_cat:""
 }
 
 const reducer =(state = initialState,action)=>{
@@ -10,6 +14,18 @@ const reducer =(state = initialState,action)=>{
             return{
                 ...state,
                 product:action.prod
+            }
+        case actionType.GETCATEGORIES:
+            return{
+                ...state,
+                cato:action.cato
+            }
+        case actionType.SETFILTERS:
+            return{
+                ...state,
+                selected_Main_CatoName:action.selected_Main_CatoName,
+                Selected_subCats:action.Selected_subCats,
+                filter_Sub_cat:action.filter_Sub_cat
             }
         default:
             return state;
