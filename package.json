@@ -60,6 +60,7 @@
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-simple-image-slider": "^1.0.4",
+    "react-zoom-slider": "^0.1.0",
     "reactstrap": "^8.5.1",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",

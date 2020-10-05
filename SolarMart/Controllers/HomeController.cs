@@ -55,22 +55,33 @@ namespace SolarMart.Controllers
             }
  
         }
-        
-        //public HttpResponseMessage GetSubCat(int id)
-        //{
-        //    DataTable dataTable = new DataTable();
-        //    Connections connections = new Connections();
-        //    connections.Connection();
-        //    connections.conn.Open();
-        //    SqlCommand cmd = new SqlCommand("sp_getProBrand", connections.conn);
-        //    cmd.CommandType = CommandType.StoredProcedure;
-        //    cmd.Parameters.AddWithValue("@id", id);
-        //    SqlDataReader dr = cmd.ExecuteReader();
-        //    dataTable.Load(dr);
-        //    connections.conn.Close();
-        //    return Request.CreateResponse(HttpStatusCode.OK, dataTable);
-            
-        //}
+        [HttpGet]
+        public HttpResponseMessage GetProdAccodPrice(float min  , float max ,int McId , int ScId)  
+        {
+            try
+            {
+                DataTable tb = new DataTable();
+                Connections connections = new Connections();
+                connections.Connection();
+                connections.conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_GetProductAccordingPrice", connections.conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@mcid", McId);
+                cmd.Parameters.AddWithValue("@scid", ScId);
+                cmd.Parameters.AddWithValue("@max", max);
+                cmd.Parameters.AddWithValue("@min", min);
+                SqlDataReader dr = cmd.ExecuteReader();
+                tb.Load(dr);
+                return Request.CreateResponse(HttpStatusCode.OK, tb);
+            }
+            catch (Exception ex)
+            {
+                string exe = ex.ToString();
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, exe);
+            }
+
+        }
+
         [HttpPost]
         public string CreateUserAccount(UserModel user)
         {

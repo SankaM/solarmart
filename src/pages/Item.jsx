@@ -22,16 +22,23 @@ class Item extends Component {
   
   getProductForItem() {
     const { id } = this.props.match.params;
+    const data = [];
     fetch(Url+"/Product/Product/" + id)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.Table);
         const mImg = res.Table1.findIndex(img=>img.IsMain ===true);
+        res.Table1.forEach(element => {
+          data.push({
+            image:`http://localhost:56482/Images/${element.ImgName}` ,
+            text:'img1'
+          })
+        });
         this.setState({
           product: res.Table,
-          Images: res.Table1,
+          Images: data,
           mImg:res.Table1[mImg].ImgName
         });
+        
       });
   }
   getRelatedProduct = (brand) => {

@@ -1,10 +1,11 @@
 .sliderContainer{
     width: 90%;
     height: 80px;
-    background-color: #C3CDDB;
-    margin: 0 auto;
+    background-color: #fff;
+    margin: 10px;
     border-radius: 5px;
     padding: 8px 6px;
+    border:1px solid rgb(226, 224, 224);
 
 }
 .rangeInput{
@@ -18,7 +19,7 @@
     border: 1px solid #a8a8a8;
     border-radius: 3px;
     outline: 0;
-    background-color: #fff;
+    background-color: #f0e8e8;
     -webkit-box-shadow: 0 1px 1px 0 #ececec;
     box-shadow: 0 1px 1px 0 #ececec;
     -webkit-transition: all .3s linear;
@@ -38,8 +39,10 @@
     font-family: 'Libre Baskerville', serif;
 }
 .sliderBtn{
-    border: 1px solid black;
     padding: 2px 4px;
     text-align: center;
     border-radius: 5px;
+}
+.rArrow{
+    width: 50px;
 }

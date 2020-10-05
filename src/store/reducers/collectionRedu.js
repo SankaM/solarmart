@@ -5,7 +5,9 @@ const initialState ={
     cato:[],
     selected_Main_CatoName:"",
     Selected_subCats:[],
-    filter_Sub_cat:""
+    filter_Sub_cat:"",
+    min:'',
+    max:''
 }
 
 const reducer =(state = initialState,action)=>{
@@ -26,6 +28,12 @@ const reducer =(state = initialState,action)=>{
                 selected_Main_CatoName:action.selected_Main_CatoName,
                 Selected_subCats:action.Selected_subCats,
                 filter_Sub_cat:action.filter_Sub_cat
+            }
+        case actionType.SETPRICETAG:
+            return{
+                ...state,
+                max:action.max,
+                min:action.min
             }
         default:
             return state;

@@ -35,5 +35,7 @@ export{
     getCatRize1Product,
     updateViews,
     GetCategory,
-    setFilter
+    setFilter,
+    setPriceTag,
+    getProductAcordingPrice
 } from "./collectionAcc";

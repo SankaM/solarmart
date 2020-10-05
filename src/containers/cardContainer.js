@@ -49,7 +49,7 @@ class cardContainer extends Component {
         <div className={Cstyle.FcardContainer}>
           {this.props.Products.map((prod) => (
             <Card
-              proPrice={prod.SellPrice}
+              proPrice={prod.Act_SellPrice}
               proModel={prod.ProModel}
               proBrand={prod.ProBrand}
               proName={prod.productname}
@@ -80,9 +80,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-// const mapDispathToProps = (dispatch) => {
-//   return {
-//     getCatRizeProduct: (id) => dispatch(collectionAcc.getCatRizeProduct(id)),
-//   };
-// };
 export default connect(mapStateToProps, null)(cardContainer);
