@@ -17,18 +17,17 @@ namespace SolarMart.Controllers
         [HttpGet]
         public HttpResponseMessage Product(string id)
         {
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SolarMartDB"].ConnectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_getProductDetailsToItem", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id", id);
-                var dataAdpter = new SqlDataAdapter(cmd);
-                var result = new DataSet();
-                dataAdpter.Fill(result);
-                return Request.CreateResponse(HttpStatusCode.OK, result);
-
-            }
+            Connections connections = new Connections();
+            connections.Connection();
+            connections.conn.Open();
+            SqlCommand cmd = new SqlCommand("sp_getProductDetailsToItem", connections.conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@id", id);
+            var dataAdpter = new SqlDataAdapter(cmd);
+            var result = new DataSet();
+            dataAdpter.Fill(result);
+            connections.conn.Close();
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         [HttpPut]
@@ -46,6 +45,30 @@ namespace SolarMart.Controllers
             catch(Exception ex)
             {
                 string exe = ex.ToString();
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetRelatedItem(string id)
+        {
+            try
+            {
+                Connections connections = new Connections();
+                connections.Connection();
+                connections.conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_getRelatedItem", connections.conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", id);
+                DataTable tb = new DataTable();
+                SqlDataReader reder = cmd.ExecuteReader();
+                tb.Load(reder);
+                connections.conn.Close();
+                return Request.CreateResponse(HttpStatusCode.OK, tb);
+            }
+            catch (Exception ex)
+            {
+                string exe = ex.ToString();
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, exe);
             }
         }
     }

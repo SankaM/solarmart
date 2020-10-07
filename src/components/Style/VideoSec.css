@@ -1,52 +1,63 @@
-.vContainer{
-    width: 100%;
-    /* background-color: blue; */
+.vContainer {
+  width: 100%;
 }
 
-#vsec{
-    margin: 0px 0px;
-    background-color: #ffffff;
-    border-radius: 2px;
-    padding: 18px 5px;
+#vsec {
+  margin: 0px 0px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  padding: 0px 5px;
 }
-.key6F{
-    font-size: 20px;
-    font-family: monospace;
-    color: slategray;
+.key6F {
+  font-size: 20px;
+  font-family: monospace;
+  color: slategray;
 }
-.keyFhader{
-    text-align: center;
+.keyFhader {
+  text-align: center;
 }
-.newPrice{
-    font-size: 30px;
-    color: blue;
-    margin-left: 30px;
-    padding: 30px 0;
+.newPrice {
+  font-size: 30px;
+  color: blue;
+  margin-left: 30px;
+  padding: 10px 0;
 }
-.buySecBtn{
-    flex: 50%;
-    text-align: center;
+.buySecBtn {
+  flex: 50%;
+  text-align: center;
 }
-.pastPrice{
-    font-size: 20px;
-    color: red;
-    margin-left: 50px;
+.pastPrice {
+  font-size: 13px;
+  color: rgb(233, 53, 53);
+  margin-left: 15px;
 }
-#btnAddChart{
-    background-color: #FB9652;
-    border: black solid 1px;
-    padding: 10px 10px;
-    border-radius: 5px;
+#btnAddChart {
+  background-color: #fb9652;
+  border: black solid 1px;
+  padding: 10px 10px;
+  border-radius: 5px;
 }
-#btnBuy{
-    background-color: #FC5D5D;
-    border: black solid 1px;
-    padding: 10px 10px;
-    border-radius: 5px;
+#btnBuy {
+  background-color: #fc5d5d;
+  border: black solid 1px;
+  padding: 10px 10px;
+  border-radius: 5px;
 }
-#btnAddChart:hover{
+#btnAddChart:hover {
   cursor: pointer;
 }
-#btnBuy:hover{
+#btnBuy:hover {
   cursor: pointer;
+}
+.features {
+  font-size: 14px;
+  display: block;
+  color: rgb(192, 187, 187);
+}
+.qutiSec {
+  margin: 20px 0;
+}
+.qutitySpan {
+  margin-right: 25px;
+  color: green;
 }

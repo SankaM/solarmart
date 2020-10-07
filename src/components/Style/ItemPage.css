@@ -1,6 +1,70 @@
+.ItemContainer{
+    width: 90%;
+    margin: 10px auto;
+}
+
+.upperRow{
+    background-color: #ffffff;
+}
+
+.ImgSlidContiner{
+    flex: 25%;
+    padding: 5px 6px;
+}
+
+.UpperMidSec{
+    flex: 30%;
+}
+
+.UpperRightSec{
+    flex: 20%;
+    background-color: #FAFAFA;
+}
+.infoIcon{
+    width: 75px;
+}
 .prodName{
     text-align: center;
     margin-top: 10px;
     padding: 5px 0;
-    background-color: rgb(211, 199, 199);
+    font-size: 25px;
+    color: rgb(94, 91, 91);
+}
+.infoSec{
+    margin-top: 15px;
+    padding-bottom: 10px;
+    padding: 0 5px;
+    border-bottom: rgb(241, 135, 188) 1px solid;
+}
+.infoSecHead{
+    font-size: 16px;
+    color: hotpink;
+    margin: 5px 10px;
+}
+.infoIcon{
+    color: rgb(165, 27, 96);
+    font-size: 15px;
+    font-weight: 500;
+}
+.infoIconSub{
+    color: rgb(235, 66, 150);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+}
+.relatedProdSec{
+    background-color: #FAFAFA;
+    margin: 0 -15px;
+}
+.relatedProd{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+.relatedProdHead{
+    margin: 10px 20px;
+    padding: 5px 0;
+    font-size: 25px;
+    color: rgb(94, 91, 91);
+    font-size: 18px;
 }

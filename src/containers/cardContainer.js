@@ -6,42 +6,6 @@ import { connect } from "react-redux";
 //import * as collectionAcc from "../store/actions/indexAcc";
 
 class cardContainer extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     allProducts: [],
-  //     Products: [],
-  //     filteredProduct: [],
-  //     Brands: [],
-  //     contentId: 0,
-  //     max: 0,
-  //     min: 0,
-  //   };
-  // }
-
-  getRequestedProduct = (id) => {
-    fetch("http://localhost:56482/api/Home/GetForCard/" + id)
-      .then((responce) => responce.json())
-      .then((data) =>
-        this.setState({
-          Products: data,
-          filteredProduct: data,
-        })
-      );
-    fetch("http://localhost:56482/api/Home/GetProBrand/" + id)
-      .then((responce) => responce.json())
-      .then((data) =>
-        this.setState({
-          Brands: data,
-        })
-      );
-    this.setState({
-      contentId: id,
-      max: 0,
-      min: 0,
-    });
-  };
-
   render() {
     let cards = <div>Loading</div>;
     if (this.props.Products.length !== 0) {

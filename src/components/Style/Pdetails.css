@@ -1,5 +1,28 @@
 .pcontainer{
-    margin: 10px 10px;
+    margin: 10px -15px;
     background-color: #ffffff;
-    border-radius: 10px;
+}
+.pdetailsHead{
+    margin: 10px 20px;
+    padding: 5px 0;
+    font-size: 25px;
+    color: rgb(94, 91, 91);
+    font-size: 18px;
+}
+.pdetSpan{
+    color: rgb(165, 27, 96);
+    font-size: 13px;
+    font-weight: 500;
+}
+.pdetHeadSpan{
+    font-size: 13px;
+    color: hotpink;
+    font-weight: 500;
+}
+.ptable{
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.pdetcontainer{
+    padding: 10px 6px;
 }
