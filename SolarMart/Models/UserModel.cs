@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace SolarMart.Models
 {
@@ -11,7 +12,7 @@ namespace SolarMart.Models
 
         public string Lname { get; set; }
 
-        public string email { get; set; }
+        public string Email { get; set; }
 
         public string Pnumber { get; set; }
 

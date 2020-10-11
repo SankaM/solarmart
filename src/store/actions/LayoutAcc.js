@@ -51,7 +51,16 @@ export const userStartLog=()=>{
     type:actionTypes.USER_START_LOGIN
   }
 }
-
+export const CredentialsInvalid=()=>{
+  return{
+    type:actionTypes.CREDENTIALSINVALID
+  }
+}
+export const ClearErrMsg=()=>{
+  return{
+    type:actionTypes.CLEAREERRMSG
+  }
+}
 export const USerlogin = (email, password) => {
   return (dispatch) => {
     dispatch(userStartLog());
@@ -70,9 +79,8 @@ export const USerlogin = (email, password) => {
         dispatch(getNoOfWishItem());
         dispatch(setSankBar(true,"success","successfully logged in"));
       })
-      .catch((error) => {
-        dispatch(setSankBar(true,"error",error.message));
-        dispatch(loginModClose());
+      .catch(() => {
+        dispatch(CredentialsInvalid());
       });
   };
 };

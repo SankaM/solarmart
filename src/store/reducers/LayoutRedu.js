@@ -6,7 +6,8 @@ const initialState = {
   loginModShow: false,
   userLogin: false,
   userLoginSpiner:false,
-  currentUserName:null
+  currentUserName:null,
+  loginError:""
 };
 
 const is_UserLogin = (state, action) => {
@@ -42,6 +43,10 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, {userLoginSpiner:true});
     case actionType.UPDATE_CURRENTUSER:
       return updateObject(state, {currentUserName:action.name});
+    case actionType.CREDENTIALSINVALID:
+      return updateObject(state, {userLoginSpiner:false,loginError:"Username or password is invalid"});
+    case actionType.CLEAREERRMSG:
+      return updateObject(state, {loginError:"  "});
     default:
       return state;
   }

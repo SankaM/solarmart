@@ -52,6 +52,7 @@ class UserLogin extends Component {
                         className="form-control"
                         type="text"
                         name="Uemail"
+                        onFocus={()=>this.props.ClearErrMsg()}
                         onChange={(e) => this.UserCredactialHandler(e)}
                       />
                     </div>
@@ -61,9 +62,11 @@ class UserLogin extends Component {
                         className="form-control"
                         type="password"
                         name="Upassword"
+                        onFocus={()=>this.props.ClearErrMsg()}
                         onChange={(e) => this.UserCredactialHandler(e)}
                       />
                     </div>
+                    {this.props.loginError && <h5 className={ACss.errorMsg}>{this.props.loginError}</h5>}
                     <div className={["form-group", ACss.LogBtnSec].join(" ")}>
                       <button type="submit" className="btn btn-primary">
                         Login
@@ -93,12 +96,14 @@ class UserLogin extends Component {
 const mapStateToProps = (state) => {
   return {
     spiner: state.lor.userLoginSpiner,
+    loginError: state.lor.loginError,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     registerUserOpen: () => dispatch({ type: "REGUSERINLOG" }),
+    ClearErrMsg: () => dispatch({ type: "CLEAREERRMSG" }),
     userLogin: (email, password) =>
       dispatch(LayoutAction.USerlogin(email, password)),
   };

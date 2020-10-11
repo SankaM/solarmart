@@ -7,7 +7,8 @@ export {
     is_Userlogin,
     Userlogout,
     USerlogin,
-    getCurrentUserName
+    getCurrentUserName,
+    ClearErrMsg
 } from "./LayoutAcc";
 export {
     addItemToWishList,

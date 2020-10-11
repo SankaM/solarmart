@@ -4,6 +4,8 @@ import ACss from "../Style/AuthPage.css";
 import { Modal, Form, Col, Row, Button } from "react-bootstrap";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
+import { Url } from "../../Helpers/Jwt";
+import axios from "axios";
 
 class UserRegister extends Component {
   constructor(props) {
@@ -12,7 +14,11 @@ class UserRegister extends Component {
       SnackbarOpen: false,
       SnackbarMsg: "",
       cpwerrMsg: "",
-      emErrorMsg:""
+      emErrorMsg: "",
+      emailExist: "",
+      sendReq: false,
+      pswordMsg: "",
+      pwrdOk: false,
     };
   }
   ValidateEmail = (mail) => {
@@ -25,6 +31,47 @@ class UserRegister extends Component {
     }
   };
 
+  IsEmailExist = () => {
+    const email = document.getElementById("email").value;
+    axios({
+      method: "GET",
+      url: Url + "/Account/EmailExist?Email=" + email,
+    }).then((res) => {
+      if (res.data === true) {
+        this.setState({
+          emailExist: "You have alredy registed  account using  above email",
+          sendReq: false,
+        });
+      } else {
+        this.setState({
+          sendReq: true,
+        });
+      }
+    });
+  };
+  passwordHandler = () => {
+    const psWord = document.getElementById("psword").value;
+    const re = new RegExp("^(?=.*[a-z])(?=.*[A-Z]).{8,32}$");
+    const IsOk = re.test(psWord);
+    if (IsOk) {
+      this.setState({
+        pswordMsg: "ok! strong password",
+        pwrdOk: true,
+      });
+    } else {
+      this.setState({
+        pswordMsg:
+          "password must contain 8 or more than 8 characters and must contain uppercase letter, lowercase letter, number, and special character",
+        pwrdOk: false,
+      });
+    }
+  };
+  clearErrMsg = () => {
+    this.setState({
+      emailExist: "",
+      emErrorMsg: "",
+    });
+  };
   SnackbarClose = (event) => {
     this.setState({ SnackbarOpen: false });
   };
@@ -32,27 +79,29 @@ class UserRegister extends Component {
     event.preventDefault();
     this.setState({
       cpwerrMsg: "",
-      emErrorMsg:""
+      emErrorMsg: "",
+      emailExist: "",
     });
     if (event.target.password.value !== event.target.Cpassword.value) {
       this.setState({
-        cpwerrMsg:"Confirm password does not match"
-      })
+        cpwerrMsg: "Confirm password does not match",
+      });
     } else if (!this.ValidateEmail(event.target.email.value)) {
       this.setState({
-        emErrorMsg:"Enter valid email address"
-      })
+        emErrorMsg: "Enter valid email address",
+      });
     } else {
-      fetch("http://localhost:56482/api/Home/CreateUserAccount", {
-        method: "POST",
+      axios({
+        method: "post",
+        url: Url + "/Account/CreateUserAccount",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: JSON.stringify({
           Fname: event.target.fname.value,
           Lname: event.target.lname.value,
-          email: event.target.email.value,
+          Email: event.target.email.value,
           Pnumber: event.target.cNumber.value,
           Address: event.target.address.value,
           Bday: event.target.bday.value,
@@ -60,23 +109,22 @@ class UserRegister extends Component {
           Password: event.target.password.value,
         }),
       })
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            this.setState({
-              SnackbarOpen: true,
-              SnackbarMsg: result,
-              userLoginShow: true,
-            });
-            this.props.onHide();
-          },
-          (error) => {
-            this.setState({
-              SnackbarOpen: true,
-              SnackbarMsg: "Failed to Update",
-            });
-          }
-        );
+        .then((res) => {
+          console.log(res.data);
+          this.setState({
+            SnackbarOpen: true,
+            SnackbarMsg: res.data,
+            userLoginShow: true,
+          });
+          this.props.onHide();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.setState({
+            SnackbarOpen: true,
+            SnackbarMsg: "Failed to Update",
+          });
+        });
     }
   };
   render() {
@@ -142,16 +190,29 @@ class UserRegister extends Component {
               </Row>
               <Row>
                 <div className="col-8">
-                  <Form.Group>
+                  <Form.Group className={ACss.formGroup}>
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                       type="text"
                       name="email"
+                      id="email"
                       placeholder="enter valid email"
+                      autoComplete="nope"
+                      onBlur={() => this.IsEmailExist()}
+                      onFocus={() => this.clearErrMsg()}
                       required
                     />
                   </Form.Group>
-                  <span className={ACss.errorMsg}>{this.state.emErrorMsg}</span>
+                  {this.state.emErrorMsg && (
+                    <span className={ACss.errorMsg}>
+                      {this.state.emErrorMsg}
+                    </span>
+                  )}
+                  {this.state.emailExist && (
+                    <span className={ACss.errorMsg}>
+                      {this.state.emailExist}
+                    </span>
+                  )}
                 </div>
                 <div className="col-4">
                   <Form.Group>
@@ -206,18 +267,29 @@ class UserRegister extends Component {
               </Row>
               <Row>
                 <Col>
-                  <Form.Group>
+                  <Form.Group className={ACss.formGroup}>
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                       type="password"
                       name="password"
+                      id="psword"
                       placeholder="Enter new password"
+                      onChange={() => this.passwordHandler()}
                       required
                     />
                   </Form.Group>
+                  {this.state.pwrdOk ? (
+                    <span className={ACss.succWordMsg}>
+                      {this.state.pswordMsg}
+                    </span>
+                  ) : (
+                    <span className={ACss.errorMsg}>
+                      {this.state.pswordMsg}
+                    </span>
+                  )}
                 </Col>
                 <Col>
-                  <Form.Group>
+                  <Form.Group className={ACss.formGroup}>
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control
                       type="password"
@@ -233,7 +305,14 @@ class UserRegister extends Component {
                 <div className="col-8"></div>
                 <div className="col-4">
                   <Form.Group>
-                    <Button type="submit" style={{ float: "right" }}>
+                    <Button
+                      type="submit"
+                      style={{ float: "right" }}
+                      disabled={
+                        this.state.sendReq === false ||
+                        this.state.pwrdOk === false
+                      }
+                    >
                       Create
                     </Button>
                   </Form.Group>

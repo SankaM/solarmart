@@ -38,3 +38,5 @@
 [0909/150619.785:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
 [0909/150619.785:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
 [0909/150619.785:ERROR:exception_snapshot_win.cc(99)] thread ID 16644 not found in process
+[1009/143724.246:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1009/214403.369:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\ASUS\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\cc64e13a-b027-4649-b5e2-58b3d137ffb1: The system cannot find the path specified. (0x3)

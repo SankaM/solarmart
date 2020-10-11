@@ -36,6 +36,14 @@
     margin-bottom: 10px;
     color: red;
     font-weight: 600;
+    font-size: 14px;
+}
+.succWordMsg{
+    text-align: center;
+    margin-bottom: 10px;
+    color:rgb(49, 230, 49);
+    font-weight: 600;
+    font-size: 14px;
 }
 /* UserLoginPage */
 .ulHader{
@@ -61,4 +69,7 @@
     top: 0;
     bottom: 0;
     margin: auto;
+}
+.formGroup{
+    margin-bottom: 2px !important;
 }
